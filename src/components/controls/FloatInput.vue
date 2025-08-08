@@ -1,0 +1,48 @@
+<template>
+  <el-input-number
+      style="width: 80px"
+      :controls="false"
+      placeholder="请输入"
+      @change="onChange"
+      @pointerdown.native.stop
+      v-model="value"
+      :disabled="doesInputConnected()"
+      v-show="!doesInputConnected()">
+  </el-input-number>
+</template>
+
+<script>
+export default {
+  name: "FloatInput",
+  props: ["data"],
+  created() {
+  },
+  computed: {
+    value: {
+      get() {
+        return this.data.value;
+      },
+      set() {
+      },
+    },
+  },
+  methods: {
+    onChange(val) {
+      this.data.onChange(val);
+    },
+    doesInputConnected() {
+      for (const connection of this.data.editor.getConnections()) {
+        if (
+            connection.target === this.data.nodeId &&
+            connection.targetInput === this.data.inputId
+        ) {
+          return true;
+        }
+      }
+      return false;
+    },
+  },
+};
+</script>
+
+<style></style>

@@ -1,8 +1,11 @@
 <template>
   <div id="app">
     <nav>
-      <router-link to="/">Home</router-link> |
+      <router-link to="/">Home</router-link>
+      |
       <router-link to="/about">About</router-link>
+      |
+      <router-link to="/graph">图标测试</router-link>
     </nav>
     <router-view/>
   </div>
@@ -13,12 +16,13 @@
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  //text-align: center;
   color: #2c3e50;
+  padding: 20px;
 }
 
 nav {
-  padding: 30px;
+  //padding: 30px;
 
   a {
     font-weight: bold;
@@ -30,3 +34,5 @@ nav {
   }
 }
 </style>
+<script setup lang="ts">
+</script>
