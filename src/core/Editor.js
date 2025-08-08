@@ -441,12 +441,14 @@ function createControlNode(editor, area, qualifiedName) {
 function createFunctionNode(editor, area, qualifiedName) {
     const def = store.getters.findFunctionDef(qualifiedName);
     // 创建节点
-    const node = new Node(editor, area, qualifiedName, {...def}, false);
+    const node = new Node(editor, area, qualifiedName, {...def}, !def.pure);
     // Function节点的执行引脚：动态显示或隐藏
-    const exec_input = new Input(socket_exec, "Exec", {});
-    node.addInput(exec_input.id, exec_input);
-    const exec_output = new Output(socket_exec, "Exec", {});
-    node.addOutput(exec_output.id, exec_output);
+    if (!def.pure) {
+        const exec_input = new Input(socket_exec, "Exec", {});
+        node.addInput(exec_input.id, exec_input);
+        const exec_output = new Output(socket_exec, "Exec", {});
+        node.addOutput(exec_output.id, exec_output);
+    }
 
     // Function节点的数据引脚
     for (let i = 0; i < def.inputParamDefs.length; i++) {

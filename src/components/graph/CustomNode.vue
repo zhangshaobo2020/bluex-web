@@ -1,17 +1,17 @@
 <template>
   <div class="node" :class="{ selected: data.selected }" :style="nodeStyles()" data-testid="node">
     <div class="title" data-testid="title">
-      <el-popover placement="top" :title="`名称：${data.meta.name}`" width="200" trigger="click"
-                  :content="`描述：${data.meta.description}`">
+      <el-popover placement="top" width="200" trigger="click">
+        <div>
+          <div>内部名称：{{ data.meta.name }}</div>
+          <div>分类：{{ data.meta.category }}</div>
+          <div>详细描述：{{ data.meta.description }}</div>
+        </div>
         <span slot="reference" style="color: grey" @pointerdown.stop><i class="el-icon-question"></i></span>
       </el-popover>
       <span style="font-weight: bold">{{
           data.meta.displayName || data.meta.name
         }}</span>
-      <span v-if="data.meta.category !== 'CONTROL' && !data.meta.pure" style="color: grey" @pointerdown.stop
-            @click="changeHasExec">
-        <i class="el-icon-refresh"></i>
-      </span>
     </div>
     <div class="columns">
       <div class="column">
@@ -100,19 +100,6 @@ export default {
   mounted() {
   },
   methods: {
-    changeHasExec() {
-      this.$nextTick(async () => {
-        this.$set(this.data, "hasExec", !this.data.hasExec);
-        this.data.editor.getConnections().forEach((conn) => {
-          if (conn.source === this.data.id || conn.target === this.data.id) {
-            this.$nextTick(async () => {
-              await this.data.editor.removeConnection(conn.id);
-            });
-          }
-        });
-        await this.data.area.update("node", this.data.id);
-      });
-    },
     removePrefixClassName(className) {
       return className.split(".").pop();
     },
