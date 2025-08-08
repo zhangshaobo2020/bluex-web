@@ -193,7 +193,7 @@ function buildDefsTree(editor, area, arr) {
     }
 
     arr.forEach(def => {
-        const parts = [def.category, def.name];
+        const parts = def.category.split("|");
         let current = root;
 
         parts.forEach((part, index) => {
@@ -295,7 +295,7 @@ function buildInputParamControl(editor, area, node, param) {
             break;
         }
         case "java.lang.Long": {
-            const param_input = new Input(socket_param_integer, param.name, param);
+            const param_input = new Input(socket_param_long, param.name, param);
             node.addInput(param_input.id, param_input);
             const control_param_input = new LongControl({
                 editor,
@@ -311,7 +311,7 @@ function buildInputParamControl(editor, area, node, param) {
             break;
         }
         case "java.lang.String": {
-            const param_input = new Input(socket_param_integer, param.name, param);
+            const param_input = new Input(socket_param_string, param.name, param);
             node.addInput(param_input.id, param_input);
             const control_param_input = new StringControl({
                 editor,
@@ -441,9 +441,9 @@ function createControlNode(editor, area, qualifiedName) {
 function createFunctionNode(editor, area, qualifiedName) {
     const def = store.getters.findFunctionDef(qualifiedName);
     // 创建节点
-    const node = new Node(editor, area, qualifiedName, {...def}, !def.pure);
+    const node = new Node(editor, area, qualifiedName, {...def}, def.executable);
     // Function节点的执行引脚：动态显示或隐藏
-    if (!def.pure) {
+    if (def.executable) {
         const exec_input = new Input(socket_exec, "Exec", {});
         node.addInput(exec_input.id, exec_input);
         const exec_output = new Output(socket_exec, "Exec", {});

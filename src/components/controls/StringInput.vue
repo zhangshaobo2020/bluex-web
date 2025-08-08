@@ -1,6 +1,6 @@
 <template>
   <el-input
-      style="width: 80px"
+      style="width: 100px"
       @input="onChange"
       @pointerdown.native.stop
       v-model="value"

@@ -5,7 +5,7 @@
       |
       <router-link to="/about">About</router-link>
       |
-      <router-link to="/graph">图标测试</router-link>
+      <router-link to="/graph">图表测试</router-link>
     </nav>
     <router-view/>
   </div>

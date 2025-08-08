@@ -3,7 +3,7 @@
     <div class="title" data-testid="title">
       <el-popover placement="top" width="200" trigger="click">
         <div>
-          <div>内部名称：{{ data.meta.name }}</div>
+          <div>名称：{{ data.meta.displayName }}</div>
           <div>分类：{{ data.meta.category }}</div>
           <div>详细描述：{{ data.meta.description }}</div>
         </div>
@@ -84,7 +84,7 @@ export default {
       return (input) => {
         if (this.data.meta.category === "CONTROL") return true;
         if (input.socket.name === "SocketParam") return true;
-        if (!this.data.meta.pure && this.data.hasExec) return true;
+        if (this.data.meta.executable && this.data.hasExec) return true;
         return false;
       };
     },
@@ -92,7 +92,7 @@ export default {
       return (output) => {
         if (this.data.meta.category === "CONTROL") return true;
         if (output.socket.name === "SocketParam") return true;
-        if (!this.data.meta.pure && this.data.hasExec) return true;
+        if (this.data.meta.executable && this.data.hasExec) return true;
         return false;
       };
     },
