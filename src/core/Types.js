@@ -1,12 +1,12 @@
 import {ClassicPreset} from "rete";
 
 class Node extends ClassicPreset.Node {
-    constructor(editor, area, label, meta = {}, hasExec = false) {
+    constructor(editor, area, label, meta = {}, id = undefined) {
         super(label);
+        id && (this.id = id);
         this.editor = editor;
         this.area = area;
         this.meta = meta;
-        this.hasExec = hasExec;
     }
 }
 
@@ -35,8 +35,9 @@ class Output extends ClassicPreset.Output {
 }
 
 class Control extends ClassicPreset.Control {
-    constructor({editor, area, value, onChange, nodeId, inputId}) {
+    constructor({editor, area, value, onChange, nodeId, inputId}, id = undefined) {
         super();
+        id && (this.id = id);
         this.editor = editor;
         this.area = area;
         this.value = value;

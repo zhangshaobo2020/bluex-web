@@ -1,7 +1,7 @@
 import axios from 'axios'
 // 创建axios实例
 const service = axios.create({
-    baseURL: "/bluex",
+    baseURL: "/api",
     timeout: 30 * 1000,
     headers: {'Content-Type': 'application/json; charset=UTF-8'}
 })

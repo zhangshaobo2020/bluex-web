@@ -17,15 +17,18 @@ export default {
   computed: {
     value: {
       get() {
-        return this.data.value;
+        return String(this.data.value);
       },
       set() {
       },
     },
   },
   methods: {
+    toBool(str) {
+      return String(str).toLowerCase() === "true";
+    },
     onChange(val) {
-      this.data.onChange(val);
+      this.data.onChange(this.toBool(val));
     },
     doesInputConnected() {
       for (const connection of this.data.editor.getConnections()) {

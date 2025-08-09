@@ -3,7 +3,7 @@ module.exports = defineConfig({
     transpileDependencies: true,
     devServer: {
         proxy: {
-            '/bluex': {
+            '/api': {
                 target: 'http://localhost:9090',
                 changeOrigin: true,
             }

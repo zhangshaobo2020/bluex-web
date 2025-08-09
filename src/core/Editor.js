@@ -228,7 +228,8 @@ function initializeDefinition(editor, area) {
 }
 
 // 构造输入参数控制
-function buildInputParamControl(editor, area, node, param) {
+function buildInputParamControl(editor, area, node, param, id = undefined) {
+    // TODO: 根据已有的id还原信息
     switch (param.typeDef.qualifiedName) {
         case "java.lang.Boolean": {
             const param_input = new Input(socket_param_boolean, param.name, param);
@@ -242,7 +243,7 @@ function buildInputParamControl(editor, area, node, param) {
                 },
                 nodeId: node.id,
                 inputId: param_input.id
-            });
+            }, id);
             param_input.addControl(control_param_input);
             break;
         }
@@ -258,7 +259,7 @@ function buildInputParamControl(editor, area, node, param) {
                 },
                 nodeId: node.id,
                 inputId: param_input.id
-            });
+            }, id);
             param_input.addControl(control_param_input);
             break;
         }
@@ -274,7 +275,7 @@ function buildInputParamControl(editor, area, node, param) {
                 },
                 nodeId: node.id,
                 inputId: param_input.id
-            });
+            }, id);
             param_input.addControl(control_param_input);
             break;
         }
@@ -290,7 +291,7 @@ function buildInputParamControl(editor, area, node, param) {
                 },
                 nodeId: node.id,
                 inputId: param_input.id
-            });
+            }, id);
             param_input.addControl(control_param_input);
             break;
         }
@@ -306,7 +307,7 @@ function buildInputParamControl(editor, area, node, param) {
                 },
                 nodeId: node.id,
                 inputId: param_input.id
-            });
+            }, id);
             param_input.addControl(control_param_input);
             break;
         }
@@ -316,13 +317,13 @@ function buildInputParamControl(editor, area, node, param) {
             const control_param_input = new StringControl({
                 editor,
                 area,
-                value: 0,
+                value: "",
                 onChange: function (value) {
                     this.value = value;
                 },
                 nodeId: node.id,
                 inputId: param_input.id
-            });
+            }, id);
             param_input.addControl(control_param_input);
             break;
         }
@@ -411,9 +412,10 @@ function customNode(editor, area, qualifiedName) {
 }
 
 function createControlNode(editor, area, qualifiedName) {
+    // TODO: 根据已有的graphNode还原信息
     const def = store.getters.findControlDef(qualifiedName);
     // 创建节点
-    const node = new Node(editor, area, qualifiedName, {...def, params: []}, true);
+    const node = new Node(editor, area, qualifiedName, {...def, params: []});
     // Control节点的执行引脚
     for (let i = 0; i < def.inputExecDefs.length; i++) {
         const param = def.inputExecDefs[i];
@@ -441,7 +443,7 @@ function createControlNode(editor, area, qualifiedName) {
 function createFunctionNode(editor, area, qualifiedName) {
     const def = store.getters.findFunctionDef(qualifiedName);
     // 创建节点
-    const node = new Node(editor, area, qualifiedName, {...def}, def.executable);
+    const node = new Node(editor, area, qualifiedName, {...def});
     // Function节点的执行引脚：动态显示或隐藏
     if (def.executable) {
         const exec_input = new Input(socket_exec, "Exec", {});
@@ -460,7 +462,70 @@ function createFunctionNode(editor, area, qualifiedName) {
     return node;
 }
 
+function graphViewConverted(editor, area) {
+    const rawNodes = editor.getNodes();
+    const rawConnections = editor.getConnections();
+
+    const nodes = rawNodes.map(node => {
+        const position = area.nodeViews.get(node.id).position;
+        const execInputs = {};
+        const execOutputs = {};
+        const paramInputs = {};
+        const paramOutputs = {};
+        for (const [pinId, input] of Object.entries(node.inputs)) {
+            if (input.socket.name === "SocketExec") {
+                execInputs[pinId] = {
+                    id: input.id,
+                    name: input.label
+                };
+            } else if (input.socket.name === "SocketParam") {
+                paramInputs[pinId] = {
+                    id: input.id,
+                    name: input.label,
+                    value: input.control?.value,
+                };
+            }
+        }
+        for (const [pinId, output] of Object.entries(node.outputs)) {
+            if (output.socket.name === "SocketExec") {
+                execOutputs[pinId] = {
+                    id: output.id,
+                    name: output.label
+                };
+            } else if (output.socket.name === "SocketParam") {
+                paramOutputs[pinId] = {
+                    id: output.id,
+                    name: output.label
+                };
+            }
+        }
+        return {
+            id: node.id,
+            x: position.x,
+            y: position.y,
+            qualifiedName: node.meta.qualifiedName,
+            signature: node.meta.signature,
+            executable: node.meta.executable,
+            execInputs: execInputs,
+            execOutputs: execOutputs,
+            paramInputs: paramInputs,
+            paramOutputs: paramOutputs
+        }
+    })
+    const connections = rawConnections.map(connection => {
+        return {
+            id: connection.id,
+            source: connection.source,
+            sourceOutput: connection.sourceOutput,
+            target: connection.target,
+            targetInput: connection.targetInput,
+        }
+    })
+    return {nodes, connections};
+}
+
 export {
     setupEditor,
+    graphViewConverted,
     customNode
 }

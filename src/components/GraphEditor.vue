@@ -7,8 +7,9 @@
 </template>
 
 <script>
-import {setupEditor} from "@/core/Editor";
+import {graphViewConverted, setupEditor} from "@/core/Editor";
 import * as MetaApi from "@/api/bluex/MetaApi";
+import * as BuildApi from "@/api/bluex/BuildApi";
 
 export default {
   name: "TestEditor",
@@ -28,17 +29,16 @@ export default {
   },
   methods: {
     showJson() {
-      const json1 = this.editor.getNodes();
-      const json2 = this.editor.getConnections();
-      console.log(json1);
-      console.log("============================");
-      console.log(json2);
+      console.log(this.editor.getNodes());
+      console.log(this.editor.getConnections());
     },
     async runTest() {
-      // const nodes = this.editor.getNodes();
-      // const connections = this.editor.getConnections();
-      // const {data} = await CompileApi.compileTest({nodes, connections});
-      console.log(123456);
+      console.log(this.area)
+      const graph = this.convertGraph();
+      await BuildApi.graphTransferTest(graph);
+    },
+    convertGraph() {
+      return graphViewConverted(this.editor, this.area);
     }
   },
 };
