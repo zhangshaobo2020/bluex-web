@@ -8,9 +8,12 @@ import {Presets, VuePlugin} from "rete-vue-plugin/vue2";
 import {ContextMenuPlugin, Presets as ContextMenuPresets} from "rete-context-menu-plugin";
 
 import {BooleanControl, BooleanInput} from "./controls/BooleanControl"
+import {DateControl, DateInput} from "./controls/DateControl"
 import {DoubleControl, DoubleInput} from "./controls/DoubleControl"
+import {EnumControl, EnumInput} from "./controls/EnumControl"
 import {FloatControl, FloatInput} from "./controls/FloatControl"
 import {IntegerControl, IntegerInput} from "./controls/IntegerControl"
+import {LocalDateTimeControl, LocalDateTimeInput} from "./controls/LocalDateTimeControl"
 import {LongControl, LongInput} from "./controls/LongControl"
 import {StringControl, StringInput} from "./controls/StringControl"
 
@@ -38,13 +41,14 @@ const socket_param_boolean = new Socket("SocketParam", "#E74C3C");
 
 const socket_param_string = new Socket("SocketParam", "#8E44AD");
 // const socket_param_bigdecimal = new Socket("SocketParam", "#0E6655");
-// const socket_param_date = new Socket("SocketParam", "#3498DB");
-// const socket_param_localdatetime = new Socket("SocketParam", "#154360");
+const socket_param_date = new Socket("SocketParam", "#3498DB");
+const socket_param_localdatetime = new Socket("SocketParam", "#154360");
 
 const socket_param_list = new Socket("SocketParam", "#0040ff");
 const socket_param_map = new Socket("SocketParam", "#bb00ff");
 
-const socket_param_object = new Socket("SocketParam", "#000000");
+const socket_param_object = new Socket("SocketParam", "#4c4c4c");
+const socket_param_enum = new Socket("SocketParam", "#7CFC00");
 
 /**
  * 构造默认Editor
@@ -93,14 +97,23 @@ function setupEditor(container) {
                     if (context.payload instanceof BooleanControl) {
                         return BooleanInput;
                     }
+                    if (context.payload instanceof DateControl) {
+                        return DateInput;
+                    }
                     if (context.payload instanceof DoubleControl) {
                         return DoubleInput;
+                    }
+                    if (context.payload instanceof EnumControl) {
+                        return EnumInput;
                     }
                     if (context.payload instanceof FloatControl) {
                         return FloatInput;
                     }
                     if (context.payload instanceof IntegerControl) {
                         return IntegerInput;
+                    }
+                    if (context.payload instanceof LocalDateTimeControl) {
+                        return LocalDateTimeInput;
                     }
                     if (context.payload instanceof LongControl) {
                         return LongInput;
@@ -247,6 +260,22 @@ function buildInputParamControl(editor, area, node, param, id = undefined) {
             param_input.addControl(control_param_input);
             break;
         }
+        case "java.util.Date": {
+            const param_input = new Input(socket_param_date, param.name, param);
+            node.addInput(param_input.id, param_input);
+            const control_param_input = new DateControl({
+                editor,
+                area,
+                value: new Date(),
+                onChange: function (value) {
+                    this.value = value;
+                },
+                nodeId: node.id,
+                inputId: param_input.id
+            }, id);
+            param_input.addControl(control_param_input);
+            break;
+        }
         case "java.lang.Double": {
             const param_input = new Input(socket_param_double, param.name, param);
             node.addInput(param_input.id, param_input);
@@ -286,6 +315,22 @@ function buildInputParamControl(editor, area, node, param, id = undefined) {
                 editor,
                 area,
                 value: 0,
+                onChange: function (value) {
+                    this.value = value;
+                },
+                nodeId: node.id,
+                inputId: param_input.id
+            }, id);
+            param_input.addControl(control_param_input);
+            break;
+        }
+        case "java.time.LocalDateTime": {
+            const param_input = new Input(socket_param_localdatetime, param.name, param);
+            node.addInput(param_input.id, param_input);
+            const control_param_input = new LocalDateTimeControl({
+                editor,
+                area,
+                value: new Date(),
                 onChange: function (value) {
                     this.value = value;
                 },
@@ -340,9 +385,26 @@ function buildInputParamControl(editor, area, node, param, id = undefined) {
             break;
         }
         default: {
-            // 走到这里就是自定义类型
-            const param_input = new Input(socket_param_object, param.name, param);
-            node.addInput(param_input.id, param_input);
+            // 走到这里就是自定义类型或者枚举
+            if (param.typeDef.enumeration) {
+                const param_input = new Input(socket_param_enum, param.name, param);
+                node.addInput(param_input.id, param_input);
+                const control_param_input = new EnumControl({
+                    editor,
+                    area,
+                    value: "",
+                    onChange: function (value) {
+                        this.value = value;
+                    },
+                    nodeId: node.id,
+                    inputId: param_input.id,
+                    properties: {enumOptions: param.typeDef.enumOptions}
+                }, id);
+                param_input.addControl(control_param_input);
+            } else {
+                const param_input = new Input(socket_param_object, param.name, param);
+                node.addInput(param_input.id, param_input);
+            }
             break;
         }
     }
@@ -353,6 +415,11 @@ function buildOutputParamControl(editor, area, node, param) {
     switch (param.typeDef.qualifiedName) {
         case "java.lang.Boolean": {
             const data_output = new Output(socket_param_boolean, param.name, param);
+            node.addOutput(data_output.id, data_output);
+            break;
+        }
+        case "java.util.Date": {
+            const data_output = new Output(socket_param_date, param.name, param);
             node.addOutput(data_output.id, data_output);
             break;
         }
@@ -368,6 +435,11 @@ function buildOutputParamControl(editor, area, node, param) {
         }
         case "java.lang.Integer": {
             const data_output = new Output(socket_param_integer, param.name, param);
+            node.addOutput(data_output.id, data_output);
+            break;
+        }
+        case "java.time.LocalDateTime": {
+            const data_output = new Output(socket_param_localdatetime, param.name, param);
             node.addOutput(data_output.id, data_output);
             break;
         }
@@ -392,9 +464,14 @@ function buildOutputParamControl(editor, area, node, param) {
             break;
         }
         default: {
-            // 走到这里就是自定义类型
-            const data_output = new Output(socket_param_object, param.name, param);
-            node.addOutput(data_output.id, data_output);
+            // 走到这里就是自定义类型或者枚举
+            if (param.typeDef.enumeration) {
+                const data_output = new Output(socket_param_enum, param.name, param);
+                node.addOutput(data_output.id, data_output);
+            } else {
+                const data_output = new Output(socket_param_object, param.name, param);
+                node.addOutput(data_output.id, data_output);
+            }
             break;
         }
     }

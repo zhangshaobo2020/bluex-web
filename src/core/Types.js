@@ -35,7 +35,7 @@ class Output extends ClassicPreset.Output {
 }
 
 class Control extends ClassicPreset.Control {
-    constructor({editor, area, value, onChange, nodeId, inputId}, id = undefined) {
+    constructor({editor, area, value, onChange, nodeId, inputId, properties = {}}, id = undefined) {
         super();
         id && (this.id = id);
         this.editor = editor;
@@ -44,6 +44,7 @@ class Control extends ClassicPreset.Control {
         this.onChange = onChange;
         this.nodeId = nodeId;
         this.inputId = inputId;
+        this.properties = properties;
     }
 }
 

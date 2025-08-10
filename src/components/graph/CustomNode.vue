@@ -4,7 +4,7 @@
       <el-popover placement="top" width="200" trigger="click">
         <div>
           <div>名称：{{ data.meta.displayName }}</div>
-          <div>分类：{{ data.meta.category }}</div>
+          <div>内部标识：{{ data.meta.name }}</div>
           <div>详细描述：{{ data.meta.description }}</div>
         </div>
         <span slot="reference" style="color: grey" @pointerdown.stop><i class="el-icon-question"></i></span>

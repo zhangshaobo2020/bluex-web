@@ -16,6 +16,14 @@
     line-height: 24px;
 }
 
+.el-input__prefix {
+    display: none;
+}
+
+.el-input__suffix {
+    display: none;
+}
+
 .el-popover--plain {
     padding: 5px !important;
 }
