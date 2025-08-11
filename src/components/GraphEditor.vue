@@ -1,7 +1,8 @@
 <template>
   <div>
     <el-button type="primary" @click="showJson">JSON</el-button>
-    <el-button type="primary" @click="runTest">测试</el-button>
+    <el-button type="primary" @click="manuallyTriggeredTest">手动触发测试</el-button>
+    <el-button type="primary" @click="fileSystemListenerTest">文件系统监听测试</el-button>
     <div style="width: 100%; height: calc(90vh)">
       <div ref="editor" style="height: calc(100% - 200px);"></div>
       <LogConsole style="height: 200px;"/>
@@ -37,9 +38,13 @@ export default {
       console.log(this.editor.getNodes());
       console.log(this.editor.getConnections());
     },
-    async runTest() {
+    async manuallyTriggeredTest() {
       const graph = this.convertGraph();
-      await BuildApi.graphTransferTest(graph);
+      await BuildApi.manuallyTriggeredTest(graph);
+    },
+    async fileSystemListenerTest() {
+      const graph = this.convertGraph();
+      await BuildApi.fileSystemListenerTest(graph);
     },
     convertGraph() {
       return graphViewConverted(this.editor, this.area);

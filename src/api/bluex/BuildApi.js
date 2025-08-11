@@ -1,8 +1,16 @@
 import request from '../axios'
 
-export function graphTransferTest(data) {
+export function manuallyTriggeredTest(data) {
     return request({
-        url: '/build/graphTransferTest',
+        url: '/build/manuallyTriggeredTest',
+        method: 'post',
+        data: data
+    })
+}
+
+export function fileSystemListenerTest(data) {
+    return request({
+        url: '/build/fileSystemListenerTest',
         method: 'post',
         data: data
     })

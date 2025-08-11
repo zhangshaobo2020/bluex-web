@@ -481,7 +481,7 @@ function buildOutputParamControl(editor, area, node, param) {
  * 根据FunctionDefinition构造节点
  */
 function customNode(editor, area, qualifiedName) {
-    if (qualifiedName.startsWith("CONTROL.")) {
+    if (qualifiedName.startsWith("CONTROL.") || qualifiedName.startsWith("DELEGATE.")) {
         return createControlNode(editor, area, qualifiedName)
     } else {
         return createFunctionNode(editor, area, qualifiedName)

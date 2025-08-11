@@ -83,6 +83,7 @@ export default {
     shouldRenderInput() {
       return (input) => {
         if (this.data.meta.category === "CONTROL") return true;
+        if (this.data.meta.category === "DELEGATE") return true;
         if (input.socket.name === "SocketParam") return true;
         if (this.data.meta.executable) return true;
         return false;
@@ -91,6 +92,7 @@ export default {
     shouldRenderOutput() {
       return (output) => {
         if (this.data.meta.category === "CONTROL") return true;
+        if (this.data.meta.category === "DELEGATE") return true;
         if (output.socket.name === "SocketParam") return true;
         if (this.data.meta.executable) return true;
         return false;
