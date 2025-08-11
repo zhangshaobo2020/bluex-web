@@ -7,10 +7,18 @@ export function manuallyTriggeredTest(data) {
         data: data
     })
 }
-
+autoMatchTest
 export function fileSystemListenerTest(data) {
     return request({
         url: '/build/fileSystemListenerTest',
+        method: 'post',
+        data: data
+    })
+}
+
+export function autoMatchTest(data) {
+    return request({
+        url: '/build/autoMatchTest',
         method: 'post',
         data: data
     })

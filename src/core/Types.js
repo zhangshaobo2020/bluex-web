@@ -11,6 +11,10 @@ class Node extends ClassicPreset.Node {
 }
 
 class Connection extends ClassicPreset.Connection {
+    constructor(source, sourceOutput, target, targetInput, id = undefined) {
+        super(source, sourceOutput, target, targetInput);
+        id && (this.id = id);
+    }
 }
 
 class Socket extends ClassicPreset.Socket {
@@ -21,15 +25,17 @@ class Socket extends ClassicPreset.Socket {
 }
 
 class Input extends ClassicPreset.Input {
-    constructor(socket, name, meta = {}) {
+    constructor(socket, name, meta = {}, id = undefined) {
         super(socket, name, true);
+        id && (this.id = id);
         this.meta = meta;
     }
 }
 
 class Output extends ClassicPreset.Output {
-    constructor(socket, name, meta = {}) {
+    constructor(socket, name, meta = {}, id = undefined) {
         super(socket, name, true);
+        id && (this.id = id);
         this.meta = meta;
     }
 }
