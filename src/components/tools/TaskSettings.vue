@@ -1,11 +1,11 @@
 <template>
   <div>
     <!-- 抽屉模拟 -->
-    <transition name="slide-up">
+    <transition name="slide-left">
       <div
           v-show="drawerVisible"
           class="log-drawer"
-          :style="{ height: drawerHeight + 'px' }"
+          :style="{ width: drawerWidth + 'px' }"
       >
         <!-- 拖动条 -->
         <div
@@ -14,25 +14,29 @@
         ></div>
         <!-- 顶部工具栏 -->
         <div class="drawer-header">
-          <span>实时日志</span>
+          <span>任务属性</span>
           <el-button
-              type="danger"
+              type="success"
               size="mini"
-              icon="el-icon-delete"
-              @click="clearLogs"
+              icon="el-icon-edit"
+              @click="toSubmit"
           >
-            清空
+            提交
           </el-button>
         </div>
-        <!-- 日志内容 -->
+        <!-- 表单内容 -->
         <div class="log-container" ref="logContainer">
-          <div
-              v-for="(line, index) in logs"
-              :key="index"
-              :class="['log-line', line.level]"
-          >
-            {{ line.message }}
-          </div>
+          <el-form ref="form" :model="form" label-width="80px">
+            <el-form-item label="任务编号">
+              <el-input v-model="form.taskNo" disabled></el-input>
+            </el-form-item>
+            <el-form-item label="任务名称">
+              <el-input v-model="form.taskName"></el-input>
+            </el-form-item>
+            <el-form-item label="任务描述">
+              <el-input type="textarea" v-model="form.taskDesc" :rows="5"></el-input>
+            </el-form-item>
+          </el-form>
         </div>
       </div>
     </transition>
@@ -43,30 +47,24 @@
 export default {
   data() {
     return {
-      ws: null,
-      logs: [],
       drawerVisible: true,
-      drawerHeight: 150,
+      drawerWidth: 350, // 宽度
       isResizing: false,
-      startY: 0,
-      startHeight: 0
+      startX: 0,
+      startWidth: 0
     };
   },
+  props: ["task"],
+  computed: {
+    form: {
+      get() {
+        return this.task;
+      },
+      set() {
+      },
+    },
+  },
   mounted() {
-    // WebSocket
-    this.ws = new WebSocket("ws://localhost:9090/api/ws");
-    this.ws.onmessage = (event) => {
-      let msg;
-      try {
-        msg = JSON.parse(event.data);
-      } catch {
-        msg = { level: null, message: event.data };
-      }
-      this.logs.push(msg);
-      if (this.logs.length > 1000) this.logs.shift();
-      this.$nextTick(() => this.scrollToBottom());
-    };
-
     // 监听鼠标拖动
     window.addEventListener("mousemove", this.onResize);
     window.addEventListener("mouseup", this.stopResize);
@@ -77,23 +75,19 @@ export default {
     this.ws && this.ws.close();
   },
   methods: {
-    clearLogs() {
-      this.logs = [];
-    },
-    scrollToBottom() {
-      const el = this.$refs.logContainer;
-      el.scrollTop = el.scrollHeight;
+    toSubmit() {
+      this.$emit("submitTask", this.task);
     },
     startResize(e) {
       this.isResizing = true;
-      this.startY = e.clientY;
-      this.startHeight = this.drawerHeight;
+      this.startX = e.clientX;
+      this.startWidth = this.drawerWidth;
       e.preventDefault();
     },
     onResize(e) {
       if (!this.isResizing) return;
-      const dy = this.startY - e.clientY;
-      this.drawerHeight = Math.max(150, this.startHeight + dy);
+      const dx = this.startX - e.clientX;
+      this.drawerWidth = Math.max(200, this.startWidth + dx);
     },
     stopResize() {
       this.isResizing = false;
@@ -106,19 +100,19 @@ export default {
 /* 抽屉容器 */
 .log-drawer {
   position: absolute;
+  top: 0;
   bottom: 0;
-  left: 0;
-  right: 0;
-  background: #4a4a4a;
-  border-top: 1px solid #444;
+  right: 0; /* 改为右侧 */
+  background: #d3d3d3;
+  border-left: 1px solid #444; /* 改为左边框 */
   display: flex;
   flex-direction: column;
-  z-index: 200;
+  z-index: 100;
 }
 
 /* 顶部工具栏 */
 .drawer-header {
-  background: #3c3c3c;
+  background: #b3b3b3;
   padding: 5px 10px;
   display: flex;
   justify-content: space-between;
@@ -129,9 +123,13 @@ export default {
 
 /* 拖动条 */
 .resize-handle {
-  height: 4px;
+  width: 4px;
   background: #e0e0e0;
-  cursor: ns-resize;
+  cursor: ew-resize; /* 横向调整 */
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
 }
 
 /* 日志内容 */

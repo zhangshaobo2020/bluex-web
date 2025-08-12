@@ -12,7 +12,7 @@
       <el-button type="warning">JSON导入</el-button>
     </el-upload>
     <el-button type="danger" @click="autoMatchTest">测试</el-button>
-    <el-button type="success" @click="toSubmit">提交</el-button>
+    <TaskSettings :task="task" @submitTask="submitTask"/>
     <div style="width: 100%; height: 100%; margin-top: 20px;">
       <div ref="editor" style="height: calc(100% - 150px);"></div>
       <LogConsole/>
@@ -23,19 +23,32 @@
 <script>
 import {graphViewConverted, loadFromJSON, setupEditor} from "@/core/Editor";
 import LogConsole from "@/components/tools/LogConsole.vue";
+import TaskSettings from "@/components/tools/TaskSettings.vue";
 import * as MetaApi from "@/api/bluex/MetaApi";
 import * as BuildApi from "@/api/bluex/BuildApi";
 import * as SaveApi from "@/api/bluex/SaveApi";
+import * as ManagementApi from "@/api/bluex/ManagementApi";
 
 export default {
   name: "TaskDetailView",
   data() {
     return {
       editor: undefined,
-      area: undefined
+      area: undefined,
+      taskNo: undefined,
+      task: {}
     };
   },
-  components: {LogConsole},
+  components: {LogConsole, TaskSettings},
+  async created() {
+    this.taskNo = this.$route.query.taskNo;
+    if (this.taskNo) {
+      const {data} = await ManagementApi.taskDetail({taskNo: this.taskNo});
+      this.task = data;
+      // 尝试加载JSON
+      this.loadJson(JSON.parse(this.task.jsonContent));
+    }
+  },
   mounted() {
     MetaApi.graphDefinition().then(({data}) => {
       this.$store.commit("overrideGraphDefs", {...data});
@@ -43,10 +56,18 @@ export default {
       this.editor = editor;
       this.area = area;
     });
-  },
+  }
+  ,
   methods: {
-    toSubmit() {
-      console.log(graphViewConverted(this.editor, this.area));
+    async submitTask(task) {
+      const {data} = await ManagementApi.taskSubmit({
+        task: {...task},
+        graph: {...graphViewConverted(this.editor, this.area)}
+      });
+      this.task = data;
+      await this.editor.clear();
+      // 尝试加载JSON
+      this.loadJson(JSON.parse(this.task.jsonContent));
     },
     saveJson() {
       const graph = graphViewConverted(this.editor, this.area);
@@ -63,7 +84,8 @@ export default {
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
           });
-    },
+    }
+    ,
     handleUpdate(file) {
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -76,16 +98,21 @@ export default {
         }
       };
       reader.readAsText(file.raw, "utf-8");
-    },
+    }
+    ,
     loadJson(savedJSON) {
       loadFromJSON(this.editor, this.area, savedJSON)
-    },
+    }
+    ,
     async autoMatchTest() {
       const graph = graphViewConverted(this.editor, this.area);
       await BuildApi.autoMatchTest(graph);
-    },
-  },
-};
+    }
+    ,
+  }
+  ,
+}
+;
 </script>
 
 <style></style>

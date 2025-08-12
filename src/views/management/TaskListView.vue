@@ -5,7 +5,7 @@
         plain
         icon="el-icon-plus"
         @click="toAdd"
-    >编辑
+    >新增
     </el-button>
     <el-table
         :data="tableData"
@@ -37,7 +37,7 @@
       </el-table-column>
       <el-table-column
           align="center"
-          prop="taskName"
+          prop="taskDesc"
           label="任务描述"
           width="400"
       >
@@ -56,7 +56,7 @@
           width="200"
       >
       </el-table-column>
-      <el-table-column fixed="right" label="操作" width="100">
+      <el-table-column fixed="right" label="操作" min-width="250">
         <template slot-scope="{ row }">
           <el-button
               type="success"
@@ -67,7 +67,7 @@
           >编辑
           </el-button>
           <el-button
-              type="success"
+              type="info"
               size="mini"
               plain
               icon="el-icon-view"

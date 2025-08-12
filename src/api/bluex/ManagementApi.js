@@ -15,3 +15,11 @@ export function taskDetail(params) {
         params: params
     })
 }
+
+export function taskSubmit(data) {
+    return request({
+        url: '/management/taskSubmit',
+        method: 'post',
+        data: data
+    })
+}
