@@ -7,7 +7,7 @@ export function manuallyTriggeredTest(data) {
         data: data
     })
 }
-autoMatchTest
+
 export function fileSystemListenerTest(data) {
     return request({
         url: '/build/fileSystemListenerTest',

@@ -1,8 +1,6 @@
 <template>
-  <div>
-    <!--    <el-button type="primary" @click="printJSON">JSON打印</el-button>-->
-    <el-button type="primary" @click="saveJson">JSON下载</el-button>
-    <!--    <el-button type="primary" @click="loadJson">JSON导入</el-button>-->
+  <div style="width: 100%; height: calc(100% - 40px);">
+    <el-button type="warning" @click="saveJson">JSON下载</el-button>
     <el-upload
         ref="upload"
         action=""
@@ -11,14 +9,12 @@
         :show-file-list="false"
         accept=".json"
         style="display: inline-block; margin-left: 10px; margin-right: 10px;">
-      <el-button type="primary">JSON导入</el-button>
+      <el-button type="warning">JSON导入</el-button>
     </el-upload>
-    <!--    <el-button type="primary" @click="manuallyTriggeredTest">手动触发测试</el-button>-->
-    <!--    <el-button type="primary" @click="fileSystemListenerTest">文件系统监听测试</el-button>-->
-    <el-button type="primary" @click="autoMatchTest">测试</el-button>
-    <div style="width: 100%; height: calc(90vh)">
-      <div ref="editor" style="height: calc(100% - 200px);"></div>
-      <LogConsole style="height: 200px;"/>
+    <el-button type="danger" @click="autoMatchTest">测试</el-button>
+    <div style="width: 100%; height: 100%; margin-top: 20px;">
+      <div ref="editor" style="height: calc(100% - 150px);"></div>
+      <LogConsole/>
     </div>
   </div>
 </template>
@@ -31,7 +27,7 @@ import * as BuildApi from "@/api/bluex/BuildApi";
 import * as SaveApi from "@/api/bluex/SaveApi";
 
 export default {
-  name: "TestEditor",
+  name: "PlayGroundView",
   data() {
     return {
       editor: undefined,
@@ -48,9 +44,6 @@ export default {
     });
   },
   methods: {
-    printJSON() {
-      console.log(this.editor.getNodes());
-    },
     saveJson() {
       const graph = graphViewConverted(this.editor, this.area);
       SaveApi.graphFile(graph)
@@ -82,14 +75,6 @@ export default {
     },
     loadJson(savedJSON) {
       loadFromJSON(this.editor, this.area, savedJSON)
-    },
-    async manuallyTriggeredTest() {
-      const graph = graphViewConverted(this.editor, this.area);
-      await BuildApi.manuallyTriggeredTest(graph);
-    },
-    async fileSystemListenerTest() {
-      const graph = graphViewConverted(this.editor, this.area);
-      await BuildApi.fileSystemListenerTest(graph);
     },
     async autoMatchTest() {
       const graph = graphViewConverted(this.editor, this.area);

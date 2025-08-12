@@ -1,0 +1,59 @@
+<template>
+  <el-container style="height: 100%; border: 2px solid #eee; display: flex;">
+    <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+      <el-menu
+          :router="true"
+          :default-active="defaultActive">
+        <el-menu-item index="/homeView">
+          <template slot="title"><i class="el-icon-postcard"></i>主页</template>
+        </el-menu-item>
+        <el-submenu index="/tutorial">
+          <template slot="title"><i class="el-icon-data-board"></i>教程</template>
+          <el-menu-item index="/tutorial/introductionView">简介</el-menu-item>
+          <el-menu-item index="/tutorial/playGroundView">演练场</el-menu-item>
+          <el-menu-item index="/tutorial/apiDocumentView">API文档</el-menu-item>
+          <el-menu-item index="/tutorial/aboutView">关于</el-menu-item>
+        </el-submenu>
+        <el-submenu index="/management">
+          <template slot="title"><i class="el-icon-setting"></i>管理</template>
+          <el-menu-item index="/management/taskListView">任务列表</el-menu-item>
+          <el-menu-item index="/management/serviceListView">服务列表</el-menu-item>
+        </el-submenu>
+      </el-menu>
+    </el-aside>
+    <el-container>
+      <el-main style="height: 100%; position: relative; flex: 1;">
+        <keep-alive>
+          <router-view/>
+        </keep-alive>
+      </el-main>
+    </el-container>
+  </el-container>
+</template>
+<script>
+export default {
+  name: "LayoutView",
+  data() {
+    return {}
+  },
+  computed: {
+    defaultActive() {
+      return this.$route.fullPath;
+    },
+  },
+  mounted() {
+  },
+  methods: {},
+};
+</script>
+<style scoped>
+.el-header {
+  background-color: #B3C0D1;
+  color: #333;
+  line-height: 60px;
+}
+
+.el-aside {
+  color: #333;
+}
+</style>

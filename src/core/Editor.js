@@ -74,7 +74,7 @@ function setupEditor(container) {
         accumulating: AreaExtensions.accumulateOnCtrl(),
     });
 
-    render.addPreset(Presets.contextMenu.setup({delay: 50}));
+    render.addPreset(Presets.contextMenu.setup({delay: 100}));
     render.addPreset(
         Presets.classic.setup({
             customize: {

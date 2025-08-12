@@ -46,7 +46,7 @@ export default {
       ws: null,
       logs: [],
       drawerVisible: true,
-      drawerHeight: 200,
+      drawerHeight: 150,
       isResizing: false,
       startY: 0,
       startHeight: 0
@@ -93,7 +93,7 @@ export default {
     onResize(e) {
       if (!this.isResizing) return;
       const dy = this.startY - e.clientY;
-      this.drawerHeight = Math.max(200, this.startHeight + dy);
+      this.drawerHeight = Math.max(150, this.startHeight + dy);
     },
     stopResize() {
       this.isResizing = false;
@@ -105,7 +105,7 @@ export default {
 <style scoped>
 /* 抽屉容器 */
 .log-drawer {
-  position: fixed;
+  position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
