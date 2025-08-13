@@ -23,9 +23,7 @@
     </el-aside>
     <el-container>
       <el-main style="height: 100%; position: relative; flex: 1;">
-        <keep-alive>
-          <router-view/>
-        </keep-alive>
+        <router-view/>
       </el-main>
     </el-container>
   </el-container>

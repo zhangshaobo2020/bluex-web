@@ -311,7 +311,7 @@ function buildInputParamControl(editor, area, node, param, savedJson = undefined
             const control_param_input = new DateControl({
                 editor,
                 area,
-                value: new Date(),
+                value: undefined,
                 onChange: function (value) {
                     this.value = value;
                 },
@@ -320,7 +320,9 @@ function buildInputParamControl(editor, area, node, param, savedJson = undefined
             }, evaluateInputControlId(param.name, savedJson));
             if (savedJson) {
                 const dateStr = evaluateInputParamDefaultValue(param.name, savedJson);
-                control_param_input.value = new Date(dateStr.replace(" ", "T"));
+                if (dateStr) {
+                    control_param_input.value = new Date(dateStr.replace(" ", "T"));
+                }
             }
             param_input.addControl(control_param_input);
             break;
@@ -388,7 +390,7 @@ function buildInputParamControl(editor, area, node, param, savedJson = undefined
             const control_param_input = new LocalDateTimeControl({
                 editor,
                 area,
-                value: new Date(),
+                value: undefined,
                 onChange: function (value) {
                     this.value = value;
                 },
@@ -397,7 +399,9 @@ function buildInputParamControl(editor, area, node, param, savedJson = undefined
             }, evaluateInputControlId(param.name, savedJson));
             if (savedJson) {
                 const dateStr = evaluateInputParamDefaultValue(param.name, savedJson);
-                control_param_input.value = new Date(dateStr.replace(" ", "T"));
+                if (dateStr) {
+                    control_param_input.value = new Date(dateStr.replace(" ", "T"));
+                }
             }
             param_input.addControl(control_param_input);
             break;

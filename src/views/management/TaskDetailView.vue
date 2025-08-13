@@ -45,8 +45,6 @@ export default {
     if (this.taskNo) {
       const {data} = await ManagementApi.taskDetail({taskNo: this.taskNo});
       this.task = data;
-      // 尝试加载JSON
-      this.loadJson(JSON.parse(this.task.jsonContent));
     }
   },
   mounted() {
@@ -55,11 +53,19 @@ export default {
       const {editor, area} = setupEditor(this.$refs["editor"]);
       this.editor = editor;
       this.area = area;
+      // 尝试加载JSON
+      this.loadJson(JSON.parse(this.task.jsonContent));
     });
   }
   ,
   methods: {
     async submitTask(task) {
+      const loading = this.$loading({
+        lock: true,
+        text: "Loading",
+        spinner: "el-icon-loading",
+        background: "rgba(0, 0, 0, 0.7)",
+      });
       const {data} = await ManagementApi.taskSubmit({
         task: {...task},
         graph: {...graphViewConverted(this.editor, this.area)}
@@ -68,6 +74,7 @@ export default {
       await this.editor.clear();
       // 尝试加载JSON
       this.loadJson(JSON.parse(this.task.jsonContent));
+      loading.close();
     },
     saveJson() {
       const graph = graphViewConverted(this.editor, this.area);

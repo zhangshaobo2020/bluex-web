@@ -26,7 +26,7 @@
         </div>
         <!-- 表单内容 -->
         <div class="log-container" ref="logContainer">
-          <el-form ref="form" :model="form" label-width="80px">
+          <el-form ref="form" :model="form" label-width="80px" size="small">
             <el-form-item label="任务编号">
               <el-input v-model="form.taskNo" disabled></el-input>
             </el-form-item>
@@ -34,7 +34,7 @@
               <el-input v-model="form.taskName"></el-input>
             </el-form-item>
             <el-form-item label="任务描述">
-              <el-input type="textarea" v-model="form.taskDesc" :rows="5"></el-input>
+              <el-input type="textarea" v-model="form.taskDesc" :rows="8"></el-input>
             </el-form-item>
           </el-form>
         </div>

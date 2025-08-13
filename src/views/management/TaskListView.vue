@@ -25,7 +25,7 @@
           align="center"
           prop="taskNo"
           label="任务编号"
-          width="200"
+          width="300"
       >
       </el-table-column>
       <el-table-column
@@ -56,7 +56,7 @@
           width="200"
       >
       </el-table-column>
-      <el-table-column fixed="right" label="操作" min-width="250">
+      <el-table-column label="操作" min-width="250">
         <template slot-scope="{ row }">
           <el-button
               type="success"
@@ -78,6 +78,7 @@
       </el-table-column>
     </el-table>
     <el-pagination
+        background
         layout="total, sizes, prev, pager, next, jumper"
         :page-sizes="[10, 20, 50]"
         :page-size="pagination.size"
@@ -85,6 +86,7 @@
         :current-page="pagination.current"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
+        style="float: right; padding: 10px;"
     >
     </el-pagination>
   </el-card>
@@ -105,8 +107,7 @@ export default {
       },
     }
   },
-  activated() {
-    console.log("activated")
+  created() {
     this.toQuery();
   },
   methods: {
