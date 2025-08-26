@@ -1,11 +1,11 @@
 <template>
   <div class="node" :class="{ selected: data.selected }" :style="nodeStyles()" data-testid="node">
     <div class="title" data-testid="title">
-      <el-popover placement="top" width="200" trigger="click">
+      <el-popover placement="top" trigger="click" style="min-width: 100px; max-width: 400px;">
         <div>
           <div>名称：{{ data.meta.displayName }}</div>
-          <div>内部标识：{{ data.meta.name }}</div>
-          <div>详细描述：{{ data.meta.description }}</div>
+          <div>分类：{{ data.meta.category }}</div>
+          <div>描述：{{ data.meta.description }}</div>
         </div>
         <span slot="reference" style="color: grey" @pointerdown.stop><i class="el-icon-question"></i></span>
       </el-popover>
