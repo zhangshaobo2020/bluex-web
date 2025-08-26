@@ -1,7 +1,7 @@
 <template>
   <div class="node" :class="{ selected: data.selected }" :style="nodeStyles()" data-testid="node">
     <div class="title" data-testid="title">
-      <el-popover placement="top" trigger="click" style="min-width: 100px; max-width: 400px;">
+      <el-popover placement="top" trigger="click" popper-class="popper-class">
         <div>
           <div>名称：{{ data.meta.displayName }}</div>
           <div>分类：{{ data.meta.category }}</div>

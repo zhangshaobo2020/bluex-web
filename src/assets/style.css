@@ -39,6 +39,12 @@
     padding-right: 5px;
 }
 
+.popper-class {
+    min-width: 100px;
+    max-width: 300px;
+    white-space: pre-line;
+}
+
 .menu {
     width: 200px !important;
     text-align: left !important;

@@ -1,6 +1,6 @@
 <template>
   <svg data-testid="connection">
-    <path :d="path"></path>
+    <path :d="path" :style="dashStyle"></path>
   </svg>
 </template>
 
@@ -8,6 +8,29 @@
 export default {
   name: "connection-path",
   props: ["data", "start", "end", "path"],
+  data() {
+    return {
+      offset: 0, // 动画偏移
+    };
+  },
+  computed: {
+    dashStyle() {
+      return {
+        strokeDasharray: "8 4",  // 8px 实线 + 4px 空白
+        strokeDashoffset: this.offset,
+      };
+    },
+  },
+  mounted() {
+    this.animate();
+  },
+  methods: {
+    animate() {
+      setInterval(() => {
+        this.offset -= 1; // 每次偏移1像素，数值越大速度越快
+      }, 30);
+    },
+  },
 };
 </script>
 
@@ -23,7 +46,7 @@ svg {
   path {
     fill: none;
     stroke-width: 3px;
-    stroke: blueviolet;
+    stroke: #000000;
     pointer-events: auto;
   }
 }
