@@ -60,7 +60,7 @@ export default {
       try {
         msg = JSON.parse(event.data);
       } catch {
-        msg = { level: null, message: event.data };
+        msg = {level: null, message: event.data};
       }
       this.logs.push(msg);
       if (this.logs.length > 1000) this.logs.shift();
@@ -145,9 +145,8 @@ export default {
 
 .log-line {
   white-space: pre-wrap;
-  font-size: 20px;
-  line-height: 20px;
-  height: 20px;
+  font-size: 18px;
+  line-height: 1.2;
 }
 
 .log-line.INFO {
