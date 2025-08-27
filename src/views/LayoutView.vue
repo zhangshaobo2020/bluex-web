@@ -16,8 +16,8 @@
         </el-submenu>
         <el-submenu index="/management">
           <template slot="title"><i class="el-icon-setting"></i>管理</template>
-          <el-menu-item index="/management/taskListView">任务列表</el-menu-item>
-          <el-menu-item index="/management/serviceListView">服务列表</el-menu-item>
+          <el-menu-item index="/management/programPageView">程序列表</el-menu-item>
+          <el-menu-item index="/management/servicePageView">服务列表</el-menu-item>
         </el-submenu>
       </el-menu>
     </el-aside>

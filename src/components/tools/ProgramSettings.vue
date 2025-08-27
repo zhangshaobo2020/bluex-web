@@ -27,14 +27,14 @@
         <!-- 表单内容 -->
         <div class="log-container" ref="logContainer">
           <el-form ref="form" :model="form" label-width="80px" size="small">
-            <el-form-item label="任务编号">
-              <el-input v-model="form.taskNo" disabled></el-input>
+            <el-form-item label="程序编号">
+              <el-input v-model="form.programNo" disabled></el-input>
             </el-form-item>
-            <el-form-item label="任务名称">
-              <el-input v-model="form.taskName"></el-input>
+            <el-form-item label="程序名称">
+              <el-input v-model="form.programName"></el-input>
             </el-form-item>
-            <el-form-item label="任务描述">
-              <el-input type="textarea" v-model="form.taskDesc" :rows="8"></el-input>
+            <el-form-item label="程序描述">
+              <el-input type="textarea" v-model="form.programDesc" :rows="8"></el-input>
             </el-form-item>
           </el-form>
         </div>
@@ -54,11 +54,11 @@ export default {
       startWidth: 0
     };
   },
-  props: ["task"],
+  props: ["program"],
   computed: {
     form: {
       get() {
-        return this.task;
+        return this.program;
       },
       set() {
       },
@@ -76,7 +76,7 @@ export default {
   },
   methods: {
     toSubmit() {
-      this.$emit("submitTask", this.task);
+      this.$emit("submitProgram", this.program);
     },
     startResize(e) {
       this.isResizing = true;

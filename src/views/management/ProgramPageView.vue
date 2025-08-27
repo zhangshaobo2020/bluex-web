@@ -1,7 +1,7 @@
 <template>
   <el-card class="box-card">
     <el-button
-        type="danger"
+        type="success"
         plain
         icon="el-icon-plus"
         @click="toAdd"
@@ -23,22 +23,22 @@
       ></el-table-column>
       <el-table-column
           align="center"
-          prop="taskNo"
-          label="任务编号"
-          width="300"
+          prop="programNo"
+          label="程序编号"
+          width="250"
       >
       </el-table-column>
       <el-table-column
           align="center"
-          prop="taskName"
-          label="任务名称"
+          prop="programName"
+          label="程序名称"
           width="200"
       >
       </el-table-column>
       <el-table-column
           align="center"
-          prop="taskDesc"
-          label="任务描述"
+          prop="programDesc"
+          label="程序描述"
           width="400"
       >
       </el-table-column>
@@ -56,24 +56,36 @@
           width="200"
       >
       </el-table-column>
-      <el-table-column label="操作" min-width="250">
+      <el-table-column
+          align="center"
+          prop="action"
+          label="操作"
+          min-width="200"
+          fixed="right"
+      >
         <template slot-scope="{ row }">
           <el-button
-              type="success"
+              type="warning"
               size="mini"
               plain
               icon="el-icon-edit"
-              @click="toEdit(row.taskNo)"
+              @click="toEdit(row)"
           >编辑
           </el-button>
-          <el-button
-              type="info"
-              size="mini"
-              plain
-              icon="el-icon-view"
-              @click="toExport(row.taskNo)"
-          >导出为JSON
-          </el-button>
+          <el-popconfirm
+              title="确定删除吗？"
+              @confirm="toDelete(row)"
+              style="margin-left: 10px;"
+          >
+            <el-button
+                slot="reference"
+                type="danger"
+                size="mini"
+                plain
+                icon="el-icon-delete"
+            >删除
+            </el-button>
+          </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
@@ -93,10 +105,10 @@
 </template>
 
 <script>
-import * as ManagementApi from "@/api/bluex/ManagementApi";
+import * as ProgramApi from "@/api/bluex/ProgramApi";
 
 export default {
-  name: "TaskListView",
+  name: "ProgramListView",
   data() {
     return {
       tableData: [],
@@ -126,8 +138,8 @@ export default {
         spinner: "el-icon-loading",
         background: "rgba(0, 0, 0, 0.7)",
       });
-      ManagementApi
-          .taskList({...this.pagination})
+      ProgramApi
+          .programPage({...this.pagination})
           .then(({data}) => {
             this.tableData = data.records;
             this.pagination.total = data.total;
@@ -138,13 +150,27 @@ export default {
           });
     },
     toAdd() {
-      this.$router.push("/management/taskDetailView");
+      this.$router.push("/management/programDetailView");
     },
-    toEdit(taskNo) {
-      this.$router.push("/management/taskDetailView?taskNo=" + taskNo);
+    toEdit({programNo}) {
+      this.$router.push("/management/programDetailView?programNo=" + programNo);
     },
-    toExport(taskNo) {
-      console.log(taskNo);
+    toDelete({programNo}) {
+      const loading = this.$loading({
+        lock: true,
+        text: "Loading",
+        spinner: "el-icon-loading",
+        background: "rgba(0, 0, 0, 0.7)",
+      });
+      ProgramApi
+          .programDelete({programNo})
+          .then(() => {
+            loading.close();
+            this.toQuery()
+          })
+          .catch(() => {
+            loading.close();
+          });
     }
   }
 };

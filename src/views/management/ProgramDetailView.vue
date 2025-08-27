@@ -12,7 +12,7 @@
       <el-button type="warning">JSON导入</el-button>
     </el-upload>
     <el-button type="danger" @click="autoMatchTest">测试</el-button>
-    <TaskSettings :task="task" @submitTask="submitTask"/>
+    <ProgramSettings :program="program" @submitProgram="submitProgram"/>
     <div style="width: 100%; height: 100%; margin-top: 20px;">
       <div ref="editor" style="height: calc(100% - 150px);"></div>
       <LogConsole/>
@@ -23,57 +23,75 @@
 <script>
 import {graphViewConverted, loadFromJSON, setupEditor} from "@/core/Editor";
 import LogConsole from "@/components/tools/LogConsole.vue";
-import TaskSettings from "@/components/tools/TaskSettings.vue";
+import ProgramSettings from "@/components/tools/ProgramSettings.vue";
 import * as MetaApi from "@/api/bluex/MetaApi";
 import * as BuildApi from "@/api/bluex/BuildApi";
 import * as SaveApi from "@/api/bluex/SaveApi";
-import * as ManagementApi from "@/api/bluex/ManagementApi";
+import * as ProgramApi from "@/api/bluex/ProgramApi";
 
 export default {
-  name: "TaskDetailView",
+  name: "ProgramDetailView",
   data() {
     return {
       editor: undefined,
       area: undefined,
-      taskNo: undefined,
-      task: {}
+      programNo: undefined,
+      program: {}
     };
   },
-  components: {LogConsole, TaskSettings},
-  async created() {
-    this.taskNo = this.$route.query.taskNo;
-    if (this.taskNo) {
-      const {data} = await ManagementApi.taskDetail({taskNo: this.taskNo});
-      this.task = data;
-    }
+  components: {LogConsole, ProgramSettings},
+  created() {
+    this.programNo = this.$route.query.programNo;
   },
   mounted() {
-    MetaApi.graphDefinition().then(({data}) => {
-      this.$store.commit("overrideGraphDefs", {...data});
-      const {editor, area} = setupEditor(this.$refs["editor"]);
-      this.editor = editor;
-      this.area = area;
-      // 尝试加载JSON
-      this.loadJson(JSON.parse(this.task.jsonContent));
+    const loading = this.$loading({
+      lock: true,
+      text: "Loading",
+      spinner: "el-icon-loading",
+      background: "rgba(0, 0, 0, 0.7)",
     });
+    MetaApi.graphDefinition()
+        .then(({data}) => {
+          this.$store.commit("overrideGraphDefs", {...data});
+          const {editor, area} = setupEditor(this.$refs["editor"]);
+          this.editor = editor;
+          this.area = area;
+          // 尝试加载JSON
+          if (this.programNo) {
+            ProgramApi.programDetail({programNo: this.programNo})
+                .then(({data}) => {
+                  this.program = data;
+                  this.loadJson(JSON.parse(this.program["jsonContent"]));
+                  loading.close();
+                })
+                .catch(() => {
+                  loading.close();
+                });
+          } else {
+            loading.close();
+          }
+        })
+        .catch(() => {
+          loading.close();
+        });
   }
   ,
   methods: {
-    async submitTask(task) {
+    async submitProgram(program) {
       const loading = this.$loading({
         lock: true,
         text: "Loading",
         spinner: "el-icon-loading",
         background: "rgba(0, 0, 0, 0.7)",
       });
-      const {data} = await ManagementApi.taskSubmit({
-        task: {...task},
+      const {data} = await ProgramApi.programSubmit({
+        program: {...program},
         graph: {...graphViewConverted(this.editor, this.area)}
       });
-      this.task = data;
+      this.program = data;
       await this.editor.clear();
       // 尝试加载JSON
-      this.loadJson(JSON.parse(this.task.jsonContent));
+      this.loadJson(JSON.parse(this.program.jsonContent));
       loading.close();
     },
     saveJson() {
@@ -91,8 +109,7 @@ export default {
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
           });
-    }
-    ,
+    },
     handleUpdate(file) {
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -105,21 +122,16 @@ export default {
         }
       };
       reader.readAsText(file.raw, "utf-8");
-    }
-    ,
+    },
     loadJson(savedJSON) {
       loadFromJSON(this.editor, this.area, savedJSON)
-    }
-    ,
+    },
     async autoMatchTest() {
       const graph = graphViewConverted(this.editor, this.area);
       await BuildApi.autoMatchTest(graph);
-    }
-    ,
-  }
-  ,
-}
-;
+    },
+  },
+};
 </script>
 
 <style></style>

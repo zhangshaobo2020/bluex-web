@@ -39,19 +39,19 @@ const routes = [
                 component: () => import('../views/tutorial/PlayGroundView.vue')
             },
             {
-                path: '/management/taskListView',
-                name: 'management-taskListView',
-                component: () => import('../views/management/TaskListView.vue')
+                path: '/management/programPageView',
+                name: 'management-programPageView',
+                component: () => import('../views/management/ProgramPageView.vue')
             },
             {
-                path: '/management/taskDetailView',
-                name: 'management-taskDetailView',
-                component: () => import('../views/management/TaskDetailView.vue')
+                path: '/management/programDetailView',
+                name: 'management-programDetailView',
+                component: () => import('../views/management/ProgramDetailView.vue')
             },
             {
-                path: '/management/serviceListView',
-                name: 'management-serviceListView',
-                component: () => import('../views/management/ServiceListView.vue')
+                path: '/management/servicePageView',
+                name: 'management-servicePageView',
+                component: () => import('../views/management/ServicePageView.vue')
             }
         ]
     },
