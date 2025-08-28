@@ -74,8 +74,7 @@ export default {
         .catch(() => {
           loading.close();
         });
-  }
-  ,
+  },
   methods: {
     async submitProgram(program) {
       const loading = this.$loading({

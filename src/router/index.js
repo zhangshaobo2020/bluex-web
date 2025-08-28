@@ -49,10 +49,15 @@ const routes = [
                 component: () => import('../views/management/ProgramDetailView.vue')
             },
             {
-                path: '/management/servicePageView',
-                name: 'management-servicePageView',
-                component: () => import('../views/management/ServicePageView.vue')
-            }
+                path: '/management/jobPageView',
+                name: 'management-jobPageView',
+                component: () => import('../views/management/JobPageView.vue')
+            },
+            {
+                path: '/management/jobDetailView',
+                name: 'management-jobDetailView',
+                component: () => import('../views/management/JobDetailView.vue')
+            },
         ]
     },
 ]

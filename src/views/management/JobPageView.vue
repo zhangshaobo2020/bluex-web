@@ -23,22 +23,29 @@
       ></el-table-column>
       <el-table-column
           align="center"
-          prop="programNo"
-          label="程序编号"
+          prop="jobNo"
+          label="任务编号"
           width="250"
       >
       </el-table-column>
       <el-table-column
           align="center"
-          prop="programName"
-          label="程序名称"
+          prop="jobName"
+          label="任务名称"
           width="200"
       >
       </el-table-column>
       <el-table-column
           align="center"
-          prop="programDesc"
-          label="程序描述"
+          prop="jobType"
+          label="任务类型"
+          width="100"
+      >
+      </el-table-column>
+      <el-table-column
+          align="center"
+          prop="jobDesc"
+          label="任务描述"
           width="400"
       >
       </el-table-column>
@@ -105,10 +112,10 @@
 </template>
 
 <script>
-import * as ProgramApi from "@/api/bluex/ProgramApi";
+import * as JobApi from "@/api/bluex/JobApi";
 
 export default {
-  name: "ProgramPageView",
+  name: "JobPageView",
   data() {
     return {
       tableData: [],
@@ -138,8 +145,8 @@ export default {
         spinner: "el-icon-loading",
         background: "rgba(0, 0, 0, 0.7)",
       });
-      ProgramApi
-          .programPage({...this.pagination})
+      JobApi
+          .jobPage({...this.pagination})
           .then(({data}) => {
             this.tableData = data.records;
             this.pagination.total = data.total;
@@ -150,20 +157,20 @@ export default {
           });
     },
     toAdd() {
-      this.$router.push("/management/programDetailView");
+      this.$router.push("/management/jobDetailView");
     },
-    toEdit({programNo}) {
-      this.$router.push("/management/programDetailView?programNo=" + programNo);
+    toEdit({jobNo}) {
+      this.$router.push("/management/jobDetailView?jobNo=" + jobNo);
     },
-    toDelete({programNo}) {
+    toDelete({jobNo}) {
       const loading = this.$loading({
         lock: true,
         text: "Loading",
         spinner: "el-icon-loading",
         background: "rgba(0, 0, 0, 0.7)",
       });
-      ProgramApi
-          .programDelete({programNo})
+      JobApi
+          .jobDelete({jobNo})
           .then(() => {
             loading.close();
             this.toQuery()

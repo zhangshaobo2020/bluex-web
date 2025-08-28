@@ -1,14 +1,14 @@
 /*覆盖element-ui样式*/
 .el-input-number.is-without-controls .el-input__inner {
     text-align: left;
-    padding-left: 5px;
-    padding-right: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .el-input .el-input__inner {
     text-align: left;
-    padding-left: 5px;
-    padding-right: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .el-input--mini .el-input__inner {
@@ -25,7 +25,7 @@
 }
 
 .el-popover--plain {
-    padding: 5px !important;
+    padding: 10px !important;
 }
 
 .el-textarea__inner::placeholder {
@@ -35,8 +35,8 @@
 .el-textarea__inner {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     text-align: left;
-    padding-left: 5px;
-    padding-right: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .popper-class {
