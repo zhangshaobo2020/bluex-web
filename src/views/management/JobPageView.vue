@@ -39,8 +39,12 @@
           align="center"
           prop="jobType"
           label="任务类型"
-          width="100"
+          width="150"
       >
+        <template slot-scope="{ row }">
+          {{ row.jobType | matchJobType}}
+        </template>
+
       </el-table-column>
       <el-table-column
           align="center"
@@ -113,6 +117,7 @@
 
 <script>
 import * as JobApi from "@/api/bluex/JobApi";
+import {matchJobType} from "@/core/JobTypes";
 
 export default {
   name: "JobPageView",
@@ -126,6 +131,7 @@ export default {
       },
     }
   },
+  filters: {matchJobType},
   created() {
     this.toQuery();
   },
