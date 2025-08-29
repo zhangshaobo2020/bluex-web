@@ -1,28 +1,29 @@
 const jobTypes = [
     {
-        value: 'A',
+        value: 'CronJob',
         label: 'CRON定时任务'
     },
     {
-        value: 'B',
+        value: 'FileSystemJob',
         label: '文件系统监听'
     },
     {
-        value: 'C',
+        value: 'HttpJob',
         label: 'HTTP请求'
     },
     {
-        value: 'D',
+        value: 'WebSocketJob',
         label: 'WebSocket侦听'
     },
     {
-        value: 'E',
+        value: 'MQJob',
         label: 'MQ消息队列'
     }
 ]
 
 function matchJobType(type) {
-    return jobTypes.filter(jobType => jobType.value === type)[0].label
+    const filtered = jobTypes.filter(jobType => jobType.value === type);
+    return (filtered.length > 0) ? filtered[0].label : "";
 }
 
 export {

@@ -31,3 +31,19 @@ export function jobDelete(params) {
         params: params
     })
 }
+
+export function jobRegister(params) {
+    return request({
+        url: '/job/jobRegister',
+        method: 'post',
+        params: params
+    })
+}
+
+export function jobUnregister(params) {
+    return request({
+        url: '/job/jobUnregister',
+        method: 'post',
+        params: params
+    })
+}

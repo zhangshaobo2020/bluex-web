@@ -42,7 +42,7 @@
           width="150"
       >
         <template slot-scope="{ row }">
-          {{ row.jobType | matchJobType}}
+          {{ row.jobType | matchJobType }}
         </template>
 
       </el-table-column>
@@ -71,7 +71,7 @@
           align="center"
           prop="action"
           label="操作"
-          min-width="200"
+          min-width="300"
           fixed="right"
       >
         <template slot-scope="{ row }">
@@ -81,6 +81,7 @@
               plain
               icon="el-icon-edit"
               @click="toEdit(row)"
+              :disabled="row.rowState === 'Y'"
           >编辑
           </el-button>
           <el-popconfirm
@@ -94,7 +95,38 @@
                 size="mini"
                 plain
                 icon="el-icon-delete"
+                :disabled="row.rowState === 'Y'"
             >删除
+            </el-button>
+          </el-popconfirm>
+          <el-popconfirm
+              title="确定注册吗？"
+              @confirm="toRegister(row)"
+              style="margin-left: 10px;"
+              v-if="row.rowState === 'N'"
+          >
+            <el-button
+                slot="reference"
+                type="success"
+                size="mini"
+                plain
+                icon="el-icon-unlock"
+            >注册
+            </el-button>
+          </el-popconfirm>
+          <el-popconfirm
+              title="确定注销吗？"
+              @confirm="toUnregister(row)"
+              style="margin-left: 10px;"
+              v-if="row.rowState === 'Y'"
+          >
+            <el-button
+                slot="reference"
+                type="info"
+                size="mini"
+                plain
+                icon="el-icon-lock"
+            >注销
             </el-button>
           </el-popconfirm>
         </template>
@@ -177,6 +209,40 @@ export default {
       });
       JobApi
           .jobDelete({jobNo})
+          .then(() => {
+            loading.close();
+            this.toQuery()
+          })
+          .catch(() => {
+            loading.close();
+          });
+    },
+    toRegister({jobNo}) {
+      const loading = this.$loading({
+        lock: true,
+        text: "Loading",
+        spinner: "el-icon-loading",
+        background: "rgba(0, 0, 0, 0.7)",
+      });
+      JobApi
+          .jobRegister({jobNo})
+          .then(() => {
+            loading.close();
+            this.toQuery()
+          })
+          .catch(() => {
+            loading.close();
+          });
+    },
+    toUnregister({jobNo}) {
+      const loading = this.$loading({
+        lock: true,
+        text: "Loading",
+        spinner: "el-icon-loading",
+        background: "rgba(0, 0, 0, 0.7)",
+      });
+      JobApi
+          .jobUnregister({jobNo})
           .then(() => {
             loading.close();
             this.toQuery()

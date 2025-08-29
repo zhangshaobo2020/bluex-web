@@ -32,19 +32,19 @@
         </el-select>
       </el-form-item>
       <!--CRON定时任务-->
-      <template v-if="job.jobType === 'A'">
+      <template v-if="job.jobType === 'CronJob'">
         <el-form-item label="CRON表达式">
           <el-input v-model="job.cronExpression"></el-input>
         </el-form-item>
       </template>
       <!--本地文件系统监听-->
-      <template v-if="job.jobType === 'B'">
+      <template v-if="job.jobType === 'FileSystemJob'">
         <el-form-item label="文件监听路径">
           <el-input v-model="job.filePath"></el-input>
         </el-form-item>
       </template>
       <!--HTTP请求-->
-      <template v-if="job.jobType === 'C'">
+      <template v-if="job.jobType === 'HttpJob'">
         <el-form-item label="请求方式">
           <el-select v-model="job.httpMethod" placeholder="请选择" style="width: 100%">
             <el-option label="GET" value="GET"></el-option>
@@ -58,15 +58,26 @@
         </el-form-item>
       </template>
       <!--WebSocket侦听-->
-      <template v-if="job.jobType === 'D'"></template>
+      <template v-if="job.jobType === 'WebSocketJob'"></template>
       <!--MQ消息队列-->
-      <template v-if="job.jobType === 'E'"></template>
+      <template v-if="job.jobType === 'MQJob'"></template>
+      <el-form-item label="绑定的程序">
+        <el-select v-model="job.programNo" placeholder="请选择" style="width: 100%">
+          <el-option
+              v-for="item in programOptions"
+              :key="item.programNo"
+              :label="item.programName"
+              :value="item.programNo">
+          </el-option>
+        </el-select>
+      </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
 import * as JobApi from "@/api/bluex/JobApi";
+import * as ProgramApi from "@/api/bluex/ProgramApi";
 import {jobTypes} from "@/core/JobTypes";
 
 export default {
@@ -82,12 +93,20 @@ export default {
         filePath: undefined,
         httpMethod: undefined,
         httpUrlMapping: undefined,
+        programNo: undefined,
       },
       jobTypeOptions: jobTypes,
+      programOptions: []
     };
   },
   created() {
     this.jobNo = this.$route.query.jobNo;
+    ProgramApi.programDropdown()
+        .then(({data}) => {
+          this.programOptions = data;
+        })
+        .catch(() => {
+        });
   },
   mounted() {
     if (this.jobNo) {

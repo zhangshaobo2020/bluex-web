@@ -236,27 +236,16 @@ function buildDefsTree(editor, area, arr) {
  * 初始化节点
  */
 function initializeDefinition(editor, area) {
-    const controlDefs = buildDefsTree(
+    return buildDefsTree(
         editor,
         area,
-        Object.values(store.getters.controlDef)
+        [
+            ...Object.values(store.getters.controlDef),
+            ...Object.values(store.getters.delegateDef),
+            ...Object.values(store.getters.functionDef),
+            ...Object.values(store.getters.generatedDef)
+        ]
     );
-    const delegateDefs = buildDefsTree(
-        editor,
-        area,
-        Object.values(store.getters.delegateDef)
-    );
-    const functionDefs = buildDefsTree(
-        editor,
-        area,
-        Object.values(store.getters.functionDef)
-    );
-    const generatedDefs = buildDefsTree(
-        editor,
-        area,
-        Object.values(store.getters.generatedDef)
-    );
-    return [...controlDefs, ...delegateDefs, ...functionDefs, ...generatedDefs];
 }
 
 // 构造输入参数控制

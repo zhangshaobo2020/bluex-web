@@ -24,7 +24,7 @@ service.interceptors.response.use(
         if ('code' in response.data && response.data.code !== 200) {
             console.error("接口请求错误", response.data.msg)
             Message({
-                message: "接口请求错误，请联系管理员......",
+                message: "接口请求错误【" + response.data.msg + "】",
                 type: "error",
                 duration: 1500,
             });

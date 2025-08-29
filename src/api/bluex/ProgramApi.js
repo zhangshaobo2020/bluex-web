@@ -31,3 +31,11 @@ export function programDelete(params) {
         params: params
     })
 }
+
+export function programDropdown(params) {
+    return request({
+        url: '/program/programDropdown',
+        method: 'get',
+        params: params
+    })
+}
