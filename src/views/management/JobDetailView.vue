@@ -1,6 +1,11 @@
 <template>
   <div style="width: 100%; height: calc(100% - 40px);">
-    <el-form ref="form" :model="job" label-width="120px" size="small" style="width: 40%;">
+    <el-form
+        ref="form"
+        :model="job"
+        label-width="120px"
+        size="small"
+        style="width: 40%;">
       <el-form-item>
         <el-button
             type="success"
@@ -12,65 +17,113 @@
           提交
         </el-button>
       </el-form-item>
-      <el-form-item label="任务编号">
-        <el-input v-model="job.jobNo" disabled></el-input>
-      </el-form-item>
-      <el-form-item label="任务名称">
-        <el-input v-model="job.jobName"></el-input>
-      </el-form-item>
-      <el-form-item label="任务描述">
-        <el-input type="textarea" v-model="job.jobDesc" :rows="8"></el-input>
-      </el-form-item>
-      <el-form-item label="任务类型">
-        <el-select v-model="job.jobType" placeholder="请选择" style="width: 100%">
-          <el-option
-              v-for="item in jobTypeOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <!--CRON定时任务-->
-      <template v-if="job.jobType === 'CronJob'">
-        <el-form-item label="CRON表达式">
-          <el-input v-model="job.cronExpression"></el-input>
+      <div style="height: 800px; overflow-y: scroll;">
+        <el-form-item label="任务编号">
+          <el-input v-model="job.jobNo" disabled></el-input>
         </el-form-item>
-      </template>
-      <!--本地文件系统监听-->
-      <template v-if="job.jobType === 'FileSystemJob'">
-        <el-form-item label="文件监听路径">
-          <el-input v-model="job.filePath"></el-input>
+        <el-form-item label="任务名称">
+          <el-input v-model="job.jobName"></el-input>
         </el-form-item>
-      </template>
-      <!--HTTP请求-->
-      <template v-if="job.jobType === 'HttpJob'">
-        <el-form-item label="请求方式">
-          <el-select v-model="job.httpMethod" placeholder="请选择" style="width: 100%">
-            <el-option label="GET" value="GET"></el-option>
-            <el-option label="POST" value="POST"></el-option>
-            <el-option label="PUT" value="PUT"></el-option>
-            <el-option label="DELETE" value="DELETE"></el-option>
+        <el-form-item label="任务描述">
+          <el-input type="textarea" v-model="job.jobDesc" :rows="8"></el-input>
+        </el-form-item>
+        <el-form-item label="任务类型">
+          <el-select v-model="job.jobType" placeholder="请选择" style="width: 100%">
+            <el-option
+                v-for="item in jobTypeOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+            </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="URL映射">
-          <el-input v-model="job.httpUrlMapping"></el-input>
+        <el-form-item label="绑定的程序">
+          <el-select v-model="job.programNo" placeholder="请选择" style="width: 100%">
+            <el-option
+                v-for="item in programOptions"
+                :key="item.programNo"
+                :label="item.programName"
+                :value="item.programNo">
+            </el-option>
+          </el-select>
         </el-form-item>
-      </template>
-      <!--WebSocket侦听-->
-      <template v-if="job.jobType === 'WebSocketJob'"></template>
-      <!--MQ消息队列-->
-      <template v-if="job.jobType === 'MQJob'"></template>
-      <el-form-item label="绑定的程序">
-        <el-select v-model="job.programNo" placeholder="请选择" style="width: 100%">
-          <el-option
-              v-for="item in programOptions"
-              :key="item.programNo"
-              :label="item.programName"
-              :value="item.programNo">
-          </el-option>
-        </el-select>
-      </el-form-item>
+        <!--CRON定时任务-->
+        <template v-if="job.jobType === 'CronJob'">
+          <el-form-item label="CRON表达式">
+            <el-input v-model="job.cronExpression"></el-input>
+          </el-form-item>
+        </template>
+        <!--本地文件系统监听-->
+        <template v-if="job.jobType === 'FileSystemJob'">
+          <el-form-item label="文件监听路径">
+            <el-input v-model="job.filePath"></el-input>
+          </el-form-item>
+        </template>
+        <!--HTTP请求-->
+        <template v-if="job.jobType === 'HttpJob'">
+          <el-form-item label="请求方式">
+            <el-select v-model="job.httpMethod" placeholder="请选择" style="width: 100%">
+              <el-option label="GET" value="GET"></el-option>
+              <el-option label="POST" value="POST"></el-option>
+              <el-option label="PUT" value="PUT"></el-option>
+              <el-option label="DELETE" value="DELETE"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="URL映射">
+            <el-input v-model="job.httpUrlMapping"></el-input>
+          </el-form-item>
+        </template>
+        <!--WebSocket侦听-->
+        <template v-if="job.jobType === 'WebSocketJob'">
+          <el-form-item label="WebSocket端口">
+            <el-input v-model="job.wsEndpoint"></el-input>
+          </el-form-item>
+        </template>
+        <!--MQ消息队列-->
+        <template v-if="job.jobType === 'MQJob'">
+          <el-form-item label="MQ类型">
+            <el-select v-model="job.mqDriverName" placeholder="请选择" style="width: 100%">
+              <el-option label="ibmmq" value="ibmmq"></el-option>
+              <el-option label="activemq" value="activemq"></el-option>
+              <el-option label="rabbitmq" value="rabbitmq"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="MQ地址">
+            <el-input v-model="job.mqUri"></el-input>
+          </el-form-item>
+          <el-form-item label="MQ用户名">
+            <el-input v-model="job.mqUsername"></el-input>
+          </el-form-item>
+          <el-form-item label="MQ密码">
+            <el-input v-model="job.mqPassword"></el-input>
+          </el-form-item>
+          <el-form-item label="MQ队列/主题">
+            <el-input v-model="job.mqDestinationName"></el-input>
+          </el-form-item>
+          <el-form-item label="MQ模式">
+            <el-radio-group v-model="job.mqPubSubDomain">
+              <el-radio :label="'N'">点对点</el-radio>
+              <el-radio :label="'Y'">发布/订阅模式</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="MQ队列管理器">
+            <el-input v-model="job.mqQueueManager"></el-input>
+          </el-form-item>
+          <el-form-item label="MQ通道名称">
+            <el-input v-model="job.mqChannel"></el-input>
+          </el-form-item>
+          <el-form-item label="MQ主机和端口">
+            <el-input v-model="job.mqConnectionNameList"></el-input>
+          </el-form-item>
+          <el-form-item label="MQ消息编码类型">
+            <el-select v-model="job.mqCcsId" placeholder="请选择" style="width: 100%">
+              <el-option label="UTF-8" value="1208"></el-option>
+              <el-option label="GBK" value="1386"></el-option>
+              <el-option label="GB2312" value="1381"></el-option>
+            </el-select>
+          </el-form-item>
+        </template>
+      </div>
     </el-form>
   </div>
 </template>
@@ -89,11 +142,22 @@ export default {
         jobName: undefined,
         jobDesc: undefined,
         jobType: undefined,
+        programNo: undefined,
         cronExpression: undefined,
         filePath: undefined,
         httpMethod: undefined,
         httpUrlMapping: undefined,
-        programNo: undefined,
+        wsEndpoint: undefined,
+        mqDriverName: undefined,
+        mqUri: undefined,
+        mqUsername: undefined,
+        mqPassword: undefined,
+        mqDestinationName: undefined,
+        mqPubSubDomain: undefined,
+        mqQueueManager: undefined,
+        mqChannel: undefined,
+        mqConnectionNameList: undefined,
+        mqCcsId: undefined,
       },
       jobTypeOptions: jobTypes,
       programOptions: []
