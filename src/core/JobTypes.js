@@ -17,7 +17,11 @@ const jobTypes = [
     },
     {
         value: 'MQJob',
-        label: 'MQ消息队列'
+        label: 'MQ消息队列侦听'
+    },
+    {
+        value: 'OracleTableListenerJob',
+        label: 'Oracle数据表侦听'
     }
 ]
 
