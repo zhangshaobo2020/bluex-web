@@ -22,7 +22,6 @@
 <script>
 import {graphViewConverted, loadFromJSON, setupEditor} from "@/core/Editor";
 import LogConsole from "@/components/tools/LogConsole.vue";
-import * as MetaApi from "@/api/bluex/MetaApi";
 import * as BuildApi from "@/api/bluex/BuildApi";
 import * as SaveApi from "@/api/bluex/SaveApi";
 
@@ -36,12 +35,9 @@ export default {
   },
   components: {LogConsole},
   mounted() {
-    MetaApi.graphDefinition().then(({data}) => {
-      this.$store.commit("overrideGraphDefs", {...data});
-      const {editor, area} = setupEditor(this.$refs["editor"]);
-      this.editor = editor;
-      this.area = area;
-    });
+    const {editor, area} = setupEditor(this.$refs["editor"]);
+    this.editor = editor;
+    this.area = area;
   },
   methods: {
     saveJson() {

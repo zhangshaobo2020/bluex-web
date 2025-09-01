@@ -24,7 +24,6 @@
 import {graphViewConverted, loadFromJSON, setupEditor} from "@/core/Editor";
 import LogConsole from "@/components/tools/LogConsole.vue";
 import ProgramSettings from "@/components/tools/ProgramSettings.vue";
-import * as MetaApi from "@/api/bluex/MetaApi";
 import * as BuildApi from "@/api/bluex/BuildApi";
 import * as SaveApi from "@/api/bluex/SaveApi";
 import * as ProgramApi from "@/api/bluex/ProgramApi";
@@ -50,30 +49,23 @@ export default {
       spinner: "el-icon-loading",
       background: "rgba(0, 0, 0, 0.7)",
     });
-    MetaApi.graphDefinition()
-        .then(({data}) => {
-          this.$store.commit("overrideGraphDefs", {...data});
-          const {editor, area} = setupEditor(this.$refs["editor"]);
-          this.editor = editor;
-          this.area = area;
-          // 尝试加载JSON
-          if (this.programNo) {
-            ProgramApi.programDetail({programNo: this.programNo})
-                .then(({data}) => {
-                  this.program = data;
-                  this.loadJson(JSON.parse(this.program["jsonContent"]));
-                  loading.close();
-                })
-                .catch(() => {
-                  loading.close();
-                });
-          } else {
+    const {editor, area} = setupEditor(this.$refs["editor"]);
+    this.editor = editor;
+    this.area = area;
+    // 尝试加载JSON
+    if (this.programNo) {
+      ProgramApi.programDetail({programNo: this.programNo})
+          .then(({data}) => {
+            this.program = data;
+            this.loadJson(JSON.parse(this.program["jsonContent"]));
             loading.close();
-          }
-        })
-        .catch(() => {
-          loading.close();
-        });
+          })
+          .catch(() => {
+            loading.close();
+          });
+    } else {
+      loading.close();
+    }
   },
   methods: {
     async submitProgram(program) {

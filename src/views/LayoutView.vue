@@ -29,6 +29,8 @@
   </el-container>
 </template>
 <script>
+import * as MetaApi from "@/api/bluex/MetaApi";
+
 export default {
   name: "LayoutView",
   data() {
@@ -39,7 +41,9 @@ export default {
       return this.$route.fullPath;
     },
   },
-  mounted() {
+  async created() {
+    const {data} = await MetaApi.graphDefinition()
+    this.$store.commit("overrideGraphDefs", {...data});
   },
   methods: {},
 };

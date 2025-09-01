@@ -123,18 +123,69 @@
             </el-select>
           </el-form-item>
         </template>
+        <!--MQ消息队列-->
+        <template v-if="job.jobType === 'OracleTableListenerJob'">
+          <el-form-item label="数据库类型">
+            <el-select v-model="job.dbDriverName" placeholder="请选择" style="width: 100%">
+              <el-option label="oracle" value="oracle"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="数据库连接地址">
+            <el-input v-model="job.dbUrl"></el-input>
+          </el-form-item>
+          <el-form-item label="数据库用户名">
+            <el-input v-model="job.dbUsername"></el-input>
+          </el-form-item>
+          <el-form-item label="数据库密码">
+            <el-input v-model="job.dbPassword"></el-input>
+          </el-form-item>
+          <el-form-item label="数据库实体类">
+            <el-select v-model="job.dbEntity" placeholder="请选择" style="width: 100%">
+              <el-option
+                  v-for="item in Object.keys(entityDef)"
+                  :key="item"
+                  :label="item"
+                  :value="item">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="监听行INSERT">
+            <el-radio-group v-model="job.dbListenInsert">
+              <el-radio :label="'N'">否</el-radio>
+              <el-radio :label="'Y'">是</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="监听行UPDATE">
+            <el-radio-group v-model="job.dbListenUpdate">
+              <el-radio :label="'N'">否</el-radio>
+              <el-radio :label="'Y'">是</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="监听行DELETE">
+            <el-radio-group v-model="job.dbListenDelete">
+              <el-radio :label="'N'">否</el-radio>
+              <el-radio :label="'Y'">是</el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </template>
       </div>
     </el-form>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import * as JobApi from "@/api/bluex/JobApi";
 import * as ProgramApi from "@/api/bluex/ProgramApi";
 import {jobTypes} from "@/core/JobTypes";
 
 export default {
   name: "JobDetailView",
+  computed: {
+    ...mapGetters([
+      'entityDef',
+    ])
+  },
   data() {
     return {
       job: {
@@ -148,7 +199,7 @@ export default {
         httpMethod: undefined,
         httpUrlMapping: undefined,
         wsEndpoint: undefined,
-        mqDriverName: undefined,
+        mqDriverName: "ibmmq",
         mqUri: undefined,
         mqUsername: undefined,
         mqPassword: undefined,
@@ -158,6 +209,14 @@ export default {
         mqChannel: undefined,
         mqConnectionNameList: undefined,
         mqCcsId: undefined,
+        dbDriverName: "oracle",
+        dbUrl: undefined,
+        dbUsername: undefined,
+        dbPassword: undefined,
+        dbEntity: undefined,
+        dbListenInsert: "Y",
+        dbListenUpdate: "Y",
+        dbListenDelete: "Y",
       },
       jobTypeOptions: jobTypes,
       programOptions: []

@@ -11,7 +11,8 @@ export default new Vuex.Store({
         controlDef: {},
         delegateDef: {},
         functionDef: {},
-        generatedDef: {}
+        generatedDef: {},
+        entityDef: {}
     },
     getters: {
         primitiveDef(state) {
@@ -63,6 +64,13 @@ export default new Vuex.Store({
             return state.generatedDef[qualifiedName]
         },
 
+        entityDef(state) {
+            return state.entityDef
+        },
+        findEntityDef: (state) => (qualifiedName) => {
+            return state.entityDef[qualifiedName]
+        },
+
         // 匹配执行节点
         matchExecNodeDef: (state) => (qualifiedName) => {
             return state.generatedDef[qualifiedName]
@@ -77,6 +85,7 @@ export default new Vuex.Store({
             state.delegateDef = defs.delegateDef;
             state.functionDef = defs.functionDef;
             state.generatedDef = defs.generatedDef;
+            state.entityDef = defs.entityDef;
         }
     },
     actions: {},

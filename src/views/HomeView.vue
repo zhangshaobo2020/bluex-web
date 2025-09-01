@@ -3,3 +3,10 @@
     <h1>[主页]建设中......</h1>
   </div>
 </template>
+
+<script>
+
+export default {
+  name: "HomeView"
+};
+</script>
