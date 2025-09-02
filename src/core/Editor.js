@@ -198,7 +198,7 @@ function setupEditor(container) {
 
 function checkIsSuperClass(sourceOutput, targetInput) {
     if (sourceOutput === targetInput) return true;
-    return targetInput === "TYPE:java.lang.Object";
+    return targetInput === "java.lang.Object";
 }
 
 function buildDefsTree(editor, area, arr) {
@@ -252,7 +252,7 @@ function initializeDefinition(editor, area) {
 function buildInputParamControl(editor, area, node, param, savedJson = undefined) {
     // TODO: 根据已有的id还原信息
     switch (param.typeDef.qualifiedName) {
-        case "TYPE:java.lang.Boolean": {
+        case "java.lang.Boolean": {
             const param_input = new Input(socket_param_boolean, param.name, param, evaluateParamInputId(param.name, savedJson));
             node.addInput(param_input.id, param_input);
             const control_param_input = new BooleanControl({
@@ -271,7 +271,7 @@ function buildInputParamControl(editor, area, node, param, savedJson = undefined
             param_input.addControl(control_param_input);
             break;
         }
-        case "TYPE:java.util.Date": {
+        case "java.util.Date": {
             const param_input = new Input(socket_param_date, param.name, param, evaluateParamInputId(param.name, savedJson));
             node.addInput(param_input.id, param_input);
             const control_param_input = new DateControl({
@@ -293,7 +293,7 @@ function buildInputParamControl(editor, area, node, param, savedJson = undefined
             param_input.addControl(control_param_input);
             break;
         }
-        case "TYPE:java.lang.Double": {
+        case "java.lang.Double": {
             const param_input = new Input(socket_param_double, param.name, param, evaluateParamInputId(param.name, savedJson));
             node.addInput(param_input.id, param_input);
             const control_param_input = new DoubleControl({
@@ -312,7 +312,7 @@ function buildInputParamControl(editor, area, node, param, savedJson = undefined
             param_input.addControl(control_param_input);
             break;
         }
-        case "TYPE:java.lang.Float": {
+        case "java.lang.Float": {
             const param_input = new Input(socket_param_float, param.name, param, evaluateParamInputId(param.name, savedJson));
             node.addInput(param_input.id, param_input);
             const control_param_input = new FloatControl({
@@ -331,7 +331,7 @@ function buildInputParamControl(editor, area, node, param, savedJson = undefined
             param_input.addControl(control_param_input);
             break;
         }
-        case "TYPE:java.lang.Integer": {
+        case "java.lang.Integer": {
             const param_input = new Input(socket_param_integer, param.name, param, evaluateParamInputId(param.name, savedJson));
             node.addInput(param_input.id, param_input);
             const control_param_input = new IntegerControl({
@@ -350,7 +350,7 @@ function buildInputParamControl(editor, area, node, param, savedJson = undefined
             param_input.addControl(control_param_input);
             break;
         }
-        case "TYPE:java.time.LocalDateTime": {
+        case "java.time.LocalDateTime": {
             const param_input = new Input(socket_param_localdatetime, param.name, param, evaluateParamInputId(param.name, savedJson));
             node.addInput(param_input.id, param_input);
             const control_param_input = new LocalDateTimeControl({
@@ -372,7 +372,7 @@ function buildInputParamControl(editor, area, node, param, savedJson = undefined
             param_input.addControl(control_param_input);
             break;
         }
-        case "TYPE:java.lang.Long": {
+        case "java.lang.Long": {
             const param_input = new Input(socket_param_long, param.name, param, evaluateParamInputId(param.name, savedJson));
             node.addInput(param_input.id, param_input);
             const control_param_input = new LongControl({
@@ -391,7 +391,7 @@ function buildInputParamControl(editor, area, node, param, savedJson = undefined
             param_input.addControl(control_param_input);
             break;
         }
-        case "TYPE:java.lang.String": {
+        case "java.lang.String": {
             const param_input = new Input(socket_param_string, param.name, param, evaluateParamInputId(param.name, savedJson));
             node.addInput(param_input.id, param_input);
             const control_param_input = new StringControl({
@@ -410,13 +410,13 @@ function buildInputParamControl(editor, area, node, param, savedJson = undefined
             param_input.addControl(control_param_input);
             break;
         }
-        case "TYPE:java.util.List": {
+        case "java.util.List": {
             const param_input = new Input(socket_param_list, param.name, param, evaluateParamInputId(param.name, savedJson));
             node.addInput(param_input.id, param_input);
             // TODO: 需要实现List的输入控制
             break;
         }
-        case "TYPE:java.util.Map": {
+        case "java.util.Map": {
             const param_input = new Input(socket_param_map, param.name, param, evaluateParamInputId(param.name, savedJson));
             node.addInput(param_input.id, param_input);
             // TODO: 需要实现Map的输入控制
@@ -454,52 +454,52 @@ function buildInputParamControl(editor, area, node, param, savedJson = undefined
 // 构造输出参数控制
 function buildOutputParamControl(editor, area, node, param, savedJson = undefined) {
     switch (param.typeDef.qualifiedName) {
-        case "TYPE:java.lang.Boolean": {
+        case "java.lang.Boolean": {
             const data_output = new Output(socket_param_boolean, param.name, param, evaluateParamOutputId(param.name, savedJson));
             node.addOutput(data_output.id, data_output);
             break;
         }
-        case "TYPE:java.util.Date": {
+        case "java.util.Date": {
             const data_output = new Output(socket_param_date, param.name, param, evaluateParamOutputId(param.name, savedJson));
             node.addOutput(data_output.id, data_output);
             break;
         }
-        case "TYPE:java.lang.Double": {
+        case "java.lang.Double": {
             const data_output = new Output(socket_param_double, param.name, param, evaluateParamOutputId(param.name, savedJson));
             node.addOutput(data_output.id, data_output);
             break;
         }
-        case "TYPE:java.lang.Float": {
+        case "java.lang.Float": {
             const data_output = new Output(socket_param_float, param.name, param, evaluateParamOutputId(param.name, savedJson));
             node.addOutput(data_output.id, data_output);
             break;
         }
-        case "TYPE:java.lang.Integer": {
+        case "java.lang.Integer": {
             const data_output = new Output(socket_param_integer, param.name, param, evaluateParamOutputId(param.name, savedJson));
             node.addOutput(data_output.id, data_output);
             break;
         }
-        case "TYPE:java.time.LocalDateTime": {
+        case "java.time.LocalDateTime": {
             const data_output = new Output(socket_param_localdatetime, param.name, param, evaluateParamOutputId(param.name, savedJson));
             node.addOutput(data_output.id, data_output);
             break;
         }
-        case "TYPE:java.lang.Long": {
+        case "java.lang.Long": {
             const data_output = new Output(socket_param_long, param.name, param, evaluateParamOutputId(param.name, savedJson));
             node.addOutput(data_output.id, data_output);
             break;
         }
-        case "TYPE:java.lang.String": {
+        case "java.lang.String": {
             const data_output = new Output(socket_param_string, param.name, param, evaluateParamOutputId(param.name, savedJson));
             node.addOutput(data_output.id, data_output);
             break;
         }
-        case "TYPE:java.util.List": {
+        case "java.util.List": {
             const data_output = new Output(socket_param_list, param.name, param, evaluateParamOutputId(param.name, savedJson));
             node.addOutput(data_output.id, data_output);
             break;
         }
-        case "TYPE:java.util.Map": {
+        case "java.util.Map": {
             const data_output = new Output(socket_param_map, param.name, param, evaluateParamOutputId(param.name, savedJson));
             node.addOutput(data_output.id, data_output);
             break;
