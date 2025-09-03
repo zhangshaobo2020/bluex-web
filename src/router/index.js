@@ -58,6 +58,16 @@ const routes = [
                 name: 'management-jobDetailView',
                 component: () => import('../views/management/JobDetailView.vue')
             },
+            {
+                path: '/management/scriptPageView',
+                name: 'management-scriptPageView',
+                component: () => import('../views/management/ScriptPageView.vue')
+            },
+            {
+                path: '/management/scriptDetailView',
+                name: 'management-scriptDetailView',
+                component: () => import('../views/management/ScriptDetailView.vue')
+            },
         ]
     },
 ]

@@ -24,6 +24,7 @@ import {graphViewConverted, loadFromJSON, setupEditor} from "@/core/Editor";
 import LogConsole from "@/components/tools/LogConsole.vue";
 import * as BuildApi from "@/api/bluex/BuildApi";
 import * as SaveApi from "@/api/bluex/SaveApi";
+import * as MetaApi from "@/api/bluex/MetaApi";
 
 export default {
   name: "PlayGroundView",
@@ -34,7 +35,10 @@ export default {
     };
   },
   components: {LogConsole},
-  mounted() {
+  async mounted() {
+    const {data} = await MetaApi.graphDefinition()
+    await this.$store.commit("overrideGraphDefs", {...data});
+
     const {editor, area} = setupEditor(this.$refs["editor"]);
     this.editor = editor;
     this.area = area;

@@ -35,6 +35,7 @@ import {
 } from "@/core/Load"
 
 import "@/assets/background.css";
+import {Message} from "element-ui";
 
 const socket_exec = new Socket("SocketExec", "#ffffff");
 // const socket_param = new Socket("SocketParam", "#ffffff");
@@ -521,16 +522,32 @@ function buildOutputParamControl(editor, area, node, param, savedJson = undefine
 async function loadFromJSON(editor, area, savedJson) {
     for (let i = 0; i < savedJson.nodes.length; i++) {
         const info = savedJson.nodes[i];
-        const node = loadCustomNode(editor, area, info.qualifiedName, info);
-        await editor.addNode(node);
-        await area.translate(node.id, {x: info.x, y: info.y});
-        await area.update('node', node.id)
+        try {
+            const node = loadCustomNode(editor, area, info.qualifiedName, info);
+            await editor.addNode(node);
+            await area.translate(node.id, {x: info.x, y: info.y});
+            await area.update('node', node.id)
+        } catch (err) {
+            Message({
+                message: "节点渲染异常【" + info.id + "】",
+                type: "error",
+                duration: 1500,
+            });
+        }
     }
     for (let i = 0; i < savedJson.connections.length; i++) {
         const info = savedJson.connections[i];
-        const connection = loadCustomConnection(editor, area, info);
-        await editor.addConnection(connection);
-        await area.update("connection", connection.id);
+        try {
+            const connection = loadCustomConnection(editor, area, info);
+            await editor.addConnection(connection);
+            await area.update("connection", connection.id);
+        } catch (err) {
+            Message({
+                message: "连线渲染异常【" + info.id + "】",
+                type: "error",
+                duration: 1500,
+            });
+        }
     }
 }
 

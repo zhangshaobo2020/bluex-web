@@ -23,35 +23,24 @@
       ></el-table-column>
       <el-table-column
           align="center"
-          prop="jobNo"
-          label="任务编号"
+          prop="scriptNo"
+          label="脚本编号"
           width="250"
       >
       </el-table-column>
       <el-table-column
           align="center"
-          prop="jobName"
-          label="任务名称"
+          prop="scriptName"
+          label="脚本名称"
           width="200"
       >
       </el-table-column>
       <el-table-column
           align="center"
-          prop="jobDesc"
-          label="任务描述"
+          prop="scriptDesc"
+          label="脚本描述"
           width="400"
       >
-      </el-table-column>
-      <el-table-column
-          align="center"
-          prop="jobType"
-          label="任务类型"
-          width="150"
-      >
-        <template slot-scope="{ row }">
-          {{ row.jobType | matchJobType }}
-        </template>
-
       </el-table-column>
       <el-table-column
           align="center"
@@ -148,11 +137,10 @@
 </template>
 
 <script>
-import * as JobApi from "@/api/bluex/JobApi";
-import {matchJobType} from "@/core/JobTypes";
+import * as ScriptApi from "@/api/bluex/ScriptApi";
 
 export default {
-  name: "JobPageView",
+  name: "ScriptPageView",
   data() {
     return {
       tableData: [],
@@ -163,7 +151,6 @@ export default {
       },
     }
   },
-  filters: {matchJobType},
   created() {
     this.toQuery();
   },
@@ -183,8 +170,8 @@ export default {
         spinner: "el-icon-loading",
         background: "rgba(0, 0, 0, 0.7)",
       });
-      JobApi
-          .jobPage({...this.pagination})
+      ScriptApi
+          .scriptPage({...this.pagination})
           .then(({data}) => {
             this.tableData = data.records;
             this.pagination.total = data.total;
@@ -195,20 +182,20 @@ export default {
           });
     },
     toAdd() {
-      this.$router.push("/management/jobDetailView");
+      this.$router.push("/management/scriptDetailView");
     },
-    toEdit({jobNo}) {
-      this.$router.push("/management/jobDetailView?jobNo=" + jobNo);
+    toEdit({scriptNo}) {
+      this.$router.push("/management/scriptDetailView?scriptNo=" + scriptNo);
     },
-    toDelete({jobNo}) {
+    toDelete({scriptNo}) {
       const loading = this.$loading({
         lock: true,
         text: "Loading",
         spinner: "el-icon-loading",
         background: "rgba(0, 0, 0, 0.7)",
       });
-      JobApi
-          .jobDelete({jobNo})
+      ScriptApi
+          .scriptDelete({scriptNo})
           .then(() => {
             loading.close();
             this.toQuery()
@@ -217,15 +204,15 @@ export default {
             loading.close();
           });
     },
-    toRegister({jobNo}) {
+    toRegister({scriptNo}) {
       const loading = this.$loading({
         lock: true,
         text: "Loading",
         spinner: "el-icon-loading",
         background: "rgba(0, 0, 0, 0.7)",
       });
-      JobApi
-          .jobRegister({jobNo})
+      ScriptApi
+          .scriptRegister({scriptNo})
           .then(() => {
             loading.close();
             this.toQuery()
@@ -234,15 +221,15 @@ export default {
             loading.close();
           });
     },
-    toUnregister({jobNo}) {
+    toUnregister({scriptNo}) {
       const loading = this.$loading({
         lock: true,
         text: "Loading",
         spinner: "el-icon-loading",
         background: "rgba(0, 0, 0, 0.7)",
       });
-      JobApi
-          .jobUnregister({jobNo})
+      ScriptApi
+          .scriptUnregister({scriptNo})
           .then(() => {
             loading.close();
             this.toQuery()

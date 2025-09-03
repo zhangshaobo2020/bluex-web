@@ -27,6 +27,7 @@ import ProgramSettings from "@/components/tools/ProgramSettings.vue";
 import * as BuildApi from "@/api/bluex/BuildApi";
 import * as SaveApi from "@/api/bluex/SaveApi";
 import * as ProgramApi from "@/api/bluex/ProgramApi";
+import * as MetaApi from "@/api/bluex/MetaApi";
 
 export default {
   name: "ProgramDetailView",
@@ -39,10 +40,11 @@ export default {
     };
   },
   components: {LogConsole, ProgramSettings},
-  created() {
+  async mounted() {
     this.programNo = this.$route.query.programNo;
-  },
-  mounted() {
+    const {data} = await MetaApi.graphDefinition()
+    await this.$store.commit("overrideGraphDefs", {...data});
+
     const loading = this.$loading({
       lock: true,
       text: "Loading",
