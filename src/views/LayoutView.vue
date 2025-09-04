@@ -18,7 +18,7 @@
           <template slot="title"><i class="el-icon-setting"></i>应用</template>
           <el-menu-item index="/management/programPageView">程序管理</el-menu-item>
           <el-menu-item index="/management/jobPageView">任务管理</el-menu-item>
-          <el-menu-item index="/management/scriptPageView">脚本管理</el-menu-item>
+          <el-menu-item index="/management/scriptPageView">脚本管理(可选)</el-menu-item>
         </el-submenu>
       </el-menu>
     </el-aside>

@@ -34,7 +34,7 @@
               <el-input v-model="form.programName"></el-input>
             </el-form-item>
             <el-form-item label="程序描述">
-              <el-input type="textarea" v-model="form.programDesc" :rows="8"></el-input>
+              <el-input type="textarea" v-model="form.programDesc" :rows="4"></el-input>
             </el-form-item>
           </el-form>
         </div>

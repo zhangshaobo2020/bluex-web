@@ -25,7 +25,7 @@
           <el-input v-model="job.jobName"></el-input>
         </el-form-item>
         <el-form-item label="任务描述">
-          <el-input type="textarea" v-model="job.jobDesc" :rows="8"></el-input>
+          <el-input type="textarea" v-model="job.jobDesc" :rows="4"></el-input>
         </el-form-item>
         <el-form-item label="任务类型">
           <el-select v-model="job.jobType" placeholder="请选择" style="width: 100%">

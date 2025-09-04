@@ -25,10 +25,10 @@
           <el-input v-model="script.scriptName"></el-input>
         </el-form-item>
         <el-form-item label="脚本描述">
-          <el-input type="textarea" v-model="script.scriptDesc" :rows="8"></el-input>
+          <el-input type="textarea" v-model="script.scriptDesc" :rows="4"></el-input>
         </el-form-item>
         <el-form-item label="脚本内容">
-          <el-input type="textarea" v-model="script.scriptContent" :rows="40"></el-input>
+          <monaco-editor v-model="script.scriptContent"></monaco-editor>
         </el-form-item>
       </div>
     </el-form>
@@ -36,10 +36,14 @@
 </template>
 
 <script>
+import MonacoEditor from '@/components/MonacoEditor'
 import * as ScriptApi from "@/api/bluex/ScriptApi";
 
 export default {
   name: "ScriptDetailView",
+  components: {
+    MonacoEditor
+  },
   data() {
     return {
       script: {

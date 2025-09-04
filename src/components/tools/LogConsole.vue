@@ -54,7 +54,7 @@ export default {
   },
   mounted() {
     // WebSocket
-    this.ws = new WebSocket("ws://localhost:9090/api/ws");
+    this.ws = new WebSocket("ws://localhost:9090/api/ws/console");
     this.ws.onmessage = (event) => {
       let msg;
       try {
