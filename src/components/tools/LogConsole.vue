@@ -14,7 +14,7 @@
         ></div>
         <!-- 顶部工具栏 -->
         <div class="drawer-header">
-          <span>实时日志</span>
+          <span>控制台输出</span>
           <el-button
               type="danger"
               size="mini"

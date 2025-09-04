@@ -24,9 +24,9 @@ const routes = [
                 component: () => import('../views/tutorial/IntroductionView.vue'),
             },
             {
-                path: '/tutorial/apiDocumentView',
-                name: 'tutorial-apiDocumentView',
-                component: () => import('../views/tutorial/ApiDocumentView.vue'),
+                path: '/tutorial/documentView',
+                name: 'tutorial-documentView',
+                component: () => import('../views/tutorial/DocumentView.vue'),
             },
             {
                 path: '/tutorial/aboutView',

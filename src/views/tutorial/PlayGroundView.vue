@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import {graphViewConverted, loadFromJSON, setupEditor} from "@/core/Editor";
+import {graphViewConverted, loadFromJSON, setupEditor, customNode} from "@/core/Editor";
 import LogConsole from "@/components/tools/LogConsole.vue";
 import * as BuildApi from "@/api/bluex/BuildApi";
 import * as SaveApi from "@/api/bluex/SaveApi";
@@ -42,6 +42,11 @@ export default {
     const {editor, area} = setupEditor(this.$refs["editor"]);
     this.editor = editor;
     this.area = area;
+    // 添加一个初始节点
+    const node = customNode(this.editor, this.area, "DELEGATE:SingleTriggerJob");
+    await this.editor.addNode(node);
+    await this.area.translate(node.id, {x: 60, y: 60});
+    await this.area.update('node', node.id)
   },
   methods: {
     saveJson() {

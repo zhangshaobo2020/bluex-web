@@ -11,7 +11,7 @@
           <template slot="title"><i class="el-icon-data-board"></i>教程</template>
           <el-menu-item index="/tutorial/introductionView">简介</el-menu-item>
           <el-menu-item index="/tutorial/playGroundView">在线调试工具</el-menu-item>
-          <el-menu-item index="/tutorial/apiDocumentView">API文档</el-menu-item>
+          <el-menu-item index="/tutorial/documentView">API文档</el-menu-item>
           <el-menu-item index="/tutorial/aboutView">关于</el-menu-item>
         </el-submenu>
         <el-submenu index="/management">
