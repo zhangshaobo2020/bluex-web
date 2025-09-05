@@ -1,5 +1,6 @@
 <template>
   <el-date-picker
+      placeholder="请选择"
       style="width: 100px"
       @input="onChange"
       @pointerdown.native.stop

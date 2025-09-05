@@ -1,18 +1,31 @@
 <template>
-  <div style="width: 100%; height: calc(100% - 40px);">
-    <el-button type="warning" @click="saveJson">JSON下载</el-button>
-    <el-upload
-        ref="upload"
-        action=""
-        :auto-upload="false"
-        :on-change="handleUpdate"
-        :show-file-list="false"
-        accept=".json"
-        style="display: inline-block; margin-left: 10px; margin-right: 10px;">
-      <el-button type="warning">JSON导入</el-button>
-    </el-upload>
-    <el-button type="danger" @click="autoMatchTest">测试</el-button>
-    <div style="width: 100%; height: 100%; margin-top: 20px;">
+  <div style="width: 100%; height: calc(100% - 60px);">
+    <div style="margin: 10px;">
+      <el-button
+          size="medium"
+          icon="el-icon-video-play"
+          type="success"
+          @click="autoMatchTest">运行测试
+      </el-button>
+      <el-button
+          size="medium"
+          type="primary"
+          icon="el-icon-download"
+          style="display: inline-block; margin-left: 10px;"
+          @click="saveJson">JSON下载
+      </el-button>
+      <el-upload
+          ref="upload"
+          action=""
+          :auto-upload="false"
+          :on-change="handleUpdate"
+          :show-file-list="false"
+          accept=".json"
+          style="display: inline-block; margin-left: 10px;">
+        <el-button size="medium" icon="el-icon-upload2" type="info">JSON导入</el-button>
+      </el-upload>
+    </div>
+    <div style="width: 100%; height: 100%;">
       <div ref="editor" style="height: calc(100% - 150px);"></div>
       <LogConsole/>
     </div>

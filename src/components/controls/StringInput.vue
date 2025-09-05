@@ -1,5 +1,6 @@
 <template>
   <el-input
+      placeholder="请输入"
       style="width: 100px"
       @input="onChange"
       @pointerdown.native.stop

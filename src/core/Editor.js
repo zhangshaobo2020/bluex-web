@@ -520,6 +520,8 @@ function buildOutputParamControl(editor, area, node, param, savedJson = undefine
 }
 
 async function loadFromJSON(editor, area, savedJson) {
+    // 导入前删除所有节点和连接
+    await editor.clear();
     for (let i = 0; i < savedJson.nodes.length; i++) {
         const info = savedJson.nodes[i];
         try {

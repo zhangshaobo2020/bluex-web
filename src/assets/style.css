@@ -1,4 +1,8 @@
 /*覆盖element-ui样式*/
+.el-main {
+    padding: 0;
+}
+
 .el-input-number.is-without-controls .el-input__inner {
     text-align: left;
     padding-left: 10px;
@@ -53,4 +57,46 @@
 .subitems {
     width: 200px !important;
     text-align: left !important;
+}
+
+/* 覆盖 Rete.js ContextMenu 默认样式 */
+.menu {
+    width: 220px !important;
+    border: 1px solid #000 !important;
+    border-radius: 15px !important;
+    background-color: #222222 !important;
+    box-shadow: 0 5px 8px rgba(0, 0, 0, .35);
+    padding: 6px;
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+    backdrop-filter: blur(4px);
+}
+
+.block {
+    color: #dddddd !important;
+    border-bottom: 1px solid #000000 !important;
+    background-color: #444444 !important;
+    cursor: pointer;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 15px;
+    /*font-weight: 300;*/
+    border-radius: 8px;
+    transition: background 0.2s, color 0.2s;
+    position: relative;
+    z-index: 1;
+}
+
+.content {
+    padding: 4px 0;
+    background-color: #444444 !important;
+    color: white;
+}
+
+.subitems {
+    border: 1px solid #000;
+    border-radius: 12px;
+    background-color: hsla(0, 0%, 6%, 0.85);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, .25);
+    z-index: 10;
 }
