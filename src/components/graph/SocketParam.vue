@@ -2,7 +2,7 @@
   <!-- <div class="socket" :title="data.name"></div> -->
   <div class="socket-param">
     <svg width="20px" height="20px">
-      <circle cx="10" cy="10" r="7" :fill="data.color" stroke="black" stroke-width="1"/>
+      <circle cx="10" cy="10" r="7" :fill="data.color" stroke="white" stroke-width="1"/>
     </svg>
   </div>
 </template>

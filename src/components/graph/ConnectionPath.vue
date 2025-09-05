@@ -46,7 +46,7 @@ svg {
   path {
     fill: none;
     stroke-width: 3px;
-    stroke: #000000;
+    stroke: #ffffff;
     pointer-events: auto;
   }
 }

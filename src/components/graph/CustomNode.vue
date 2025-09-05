@@ -1,5 +1,6 @@
 <template>
   <div class="node" :class="{ selected: data.selected }" :style="nodeStyles()" data-testid="node">
+    <div class="glossy"></div>
     <div class="title" data-testid="title">
       <el-popover placement="top" trigger="click" popper-class="popper-class">
         <div>
@@ -150,9 +151,12 @@ export default {
 @use "@/assets/vars" as *;
 
 .node {
-  background: wheat;
-  border: 2px solid grey;
-  border-radius: 10px;
+  min-width: auto;
+  border: 1px solid #000 !important;
+  border-radius: 20px !important;
+  box-shadow: 0 5px 5px 1px rgba(0, 0, 0, .3);
+  background-color: hsla(0, 0%, 6%, .55) !important;
+  z-index: 1;
   cursor: pointer;
   box-sizing: border-box;
   width: $node-width;
@@ -161,19 +165,28 @@ export default {
   position: relative;
   user-select: none;
 
-  &:hover {
-    background: wheat;
-  }
-
   &.selected {
-    border-color: red;
+    box-shadow: 0 2px 6px 2px #985700, 0 0 0 5px #c9b144;
   }
 
-  .title {
-    color: black;
-    // font-family: sans-serif;
-    font-size: 18px;
-    padding: 8px;
+  .glossy {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-top: 1.5px solid #ffffffb3;
+    border-radius: inherit;
+    background: linear-gradient(
+            180deg,
+            rgb(255 255 255 / 25%) 0px,
+            rgb(255 255 255 / 21%) 3px,
+            rgb(255 255 255 / 14%) 6px,
+            rgb(255 255 255 / 10%) 9px,
+            rgb(255 255 255 / 10%) 13px,
+            transparent 13px
+    );
+    z-index: -1;
   }
 
   .output,
@@ -187,9 +200,10 @@ export default {
   }
 
   .title {
+    color: #dddddd;
     white-space: nowrap;
-    // background: radial-gradient(50% 90%, #3f80c39e 0%, transparent 80%);
-    font-size: 18px;
+    background: radial-gradient(ellipse 50% 90% at center, #3f80c39e 0%, transparent 80%);
+    font-size: 20px;
     padding: 5px;
     border-radius: 15px 15px 0 0;
     text-align: center;
@@ -200,14 +214,15 @@ export default {
   .title,
   .input-title,
   .output-title {
+    color: #dddddd;
     font-family: "Montserrat", sans-serif !important;
     font-weight: 300;
   }
 
   .input-title,
   .output-title {
-    font-size: 10px;
-    font-weight: bold;
+    color: #dddddd;
+    font-size: 14px;
     text-overflow: ellipsis;
     overflow: hidden;
   }
@@ -219,22 +234,22 @@ export default {
   }
 
   .input-socket {
-    margin-left: 5px !important; // -15px;
+    margin-left: 5px !important;
   }
 
   .output-socket {
-    margin-right: 5px !important; // -15px;
+    margin-right: 5px !important;
   }
 
   .input-control {
     overflow: hidden;
-    padding: 0px;
+    padding: 0;
     margin-left: 2px;
   }
 
   .output-control {
     overflow: hidden;
-    padding: 0px;
+    padding: 0;
     margin-right: 2px;
   }
 

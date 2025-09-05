@@ -4,8 +4,8 @@
     <svg width="20px" height="20px">
       <path
           d="M3,3 L10,3 L17,10 L10,17 L3,17 Z"
-          fill="lightgray"
-          stroke="black"
+          fill="grey"
+          stroke="white"
           stroke-width="1"
       />
     </svg>
