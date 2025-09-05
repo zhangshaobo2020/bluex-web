@@ -33,10 +33,15 @@ export default {
   name: "ProgramDetailView",
   data() {
     return {
-      editor: undefined,
-      area: undefined,
-      programNo: undefined,
-      program: {}
+      editor: null,
+      area: null,
+      programNo: null,
+      program: {
+        programNo: null,
+        programName: null,
+        programDesc: null,
+        programType: null,
+      }
     };
   },
   components: {LogConsole, ProgramSettings},

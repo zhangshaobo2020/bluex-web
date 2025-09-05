@@ -32,7 +32,7 @@
           align="center"
           prop="scriptName"
           label="脚本名称"
-          width="200"
+          width="250"
       >
       </el-table-column>
       <el-table-column

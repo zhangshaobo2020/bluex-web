@@ -32,14 +32,24 @@
           align="center"
           prop="programName"
           label="程序名称"
+          width="250"
+      >
+      </el-table-column>
+      <el-table-column
+          align="center"
+          prop="programType"
+          label="程序类型"
           width="200"
       >
+        <template slot-scope="{ row }">
+          {{ row.programType | matchProgramType }}
+        </template>
       </el-table-column>
       <el-table-column
           align="center"
           prop="programDesc"
           label="程序描述"
-          width="400"
+          min-width="400"
       >
       </el-table-column>
       <el-table-column
@@ -106,6 +116,7 @@
 
 <script>
 import * as ProgramApi from "@/api/bluex/ProgramApi";
+import {matchProgramType} from "@/core/ProgramTypes";
 
 export default {
   name: "ProgramPageView",
@@ -119,6 +130,7 @@ export default {
       },
     }
   },
+  filters: {matchProgramType},
   created() {
     this.toQuery();
   },

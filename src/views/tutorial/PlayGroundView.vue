@@ -30,8 +30,8 @@ export default {
   name: "PlayGroundView",
   data() {
     return {
-      editor: undefined,
-      area: undefined
+      editor: null,
+      area: null
     };
   },
   components: {LogConsole},

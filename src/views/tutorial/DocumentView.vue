@@ -7,6 +7,6 @@
     <p>③.连接"单次触发"节点与"Print"节点的Exec引脚</p>
     <p>④.在"Print"节点的"Str"输入框中，输入"Hello World!"</p>
     <p>⑤.点击左上角的"测试"按钮，此时在下方的"控制台输出"中，你将观察到有字符串被打印</p>
-    <img src="@/assets/pictures/1-1-001.png"  alt=""/>
+    <img src="../../assets/pictures/1-1-001.png" alt=""/>
   </div>
 </template>

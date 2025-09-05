@@ -47,10 +47,10 @@ export default {
   data() {
     return {
       script: {
-        scriptNo: undefined,
-        scriptName: undefined,
-        scriptDesc: undefined,
-        scriptContent: undefined,
+        scriptNo: null,
+        scriptName: null,
+        scriptDesc: null,
+        scriptContent: null,
       },
     };
   },

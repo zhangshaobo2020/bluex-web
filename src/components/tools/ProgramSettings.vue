@@ -33,6 +33,16 @@
             <el-form-item label="程序名称">
               <el-input v-model="form.programName"></el-input>
             </el-form-item>
+            <el-form-item label="程序类型">
+              <el-select v-model="form.programType" placeholder="请选择" style="width: 100%">
+                <el-option
+                    v-for="item in programTypes"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
             <el-form-item label="程序描述">
               <el-input type="textarea" v-model="form.programDesc" :rows="4"></el-input>
             </el-form-item>
@@ -44,9 +54,12 @@
 </template>
 
 <script>
+import {programTypes} from "@/core/ProgramTypes";
+
 export default {
   data() {
     return {
+      programTypes: programTypes,
       drawerVisible: true,
       drawerWidth: 350, // 宽度
       isResizing: false,

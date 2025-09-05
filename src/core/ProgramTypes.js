@@ -1,10 +1,14 @@
-const jobTypes = [
+const programTypes = [
+    {
+        value: 'SingleTriggerJob',
+        label: '单次触发任务'
+    },
     {
         value: 'CronJob',
         label: 'CRON定时任务'
     },
     {
-        value: 'FileSystemJob',
+        value: 'FileSystemListenJob',
         label: '文件系统监听'
     },
     {
@@ -25,11 +29,11 @@ const jobTypes = [
     }
 ]
 
-function matchJobType(type) {
-    const filtered = jobTypes.filter(jobType => jobType.value === type);
+function matchProgramType(type) {
+    const filtered = programTypes.filter(item => item.value === type);
     return (filtered.length > 0) ? filtered[0].label : "";
 }
 
 export {
-    jobTypes, matchJobType
+    programTypes, matchProgramType
 }

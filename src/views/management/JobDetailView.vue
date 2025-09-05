@@ -27,10 +27,14 @@
         <el-form-item label="任务描述">
           <el-input type="textarea" v-model="job.jobDesc" :rows="4"></el-input>
         </el-form-item>
-        <el-form-item label="任务类型">
-          <el-select v-model="job.jobType" placeholder="请选择" style="width: 100%">
+        <el-form-item label="程序类型">
+          <el-select
+              v-model="job.programType"
+              placeholder="请选择"
+              style="width: 100%"
+              @change="onProgramTypeChange">
             <el-option
-                v-for="item in jobTypeOptions"
+                v-for="item in programTypes"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
@@ -40,7 +44,7 @@
         <el-form-item label="绑定的程序">
           <el-select v-model="job.programNo" placeholder="请选择" style="width: 100%">
             <el-option
-                v-for="item in programOptions"
+                v-for="item in filteredOptions"
                 :key="item.programNo"
                 :label="item.programName"
                 :value="item.programNo">
@@ -48,19 +52,19 @@
           </el-select>
         </el-form-item>
         <!--CRON定时任务-->
-        <template v-if="job.jobType === 'CronJob'">
+        <template v-if="job.programType === 'CronJob'">
           <el-form-item label="CRON表达式">
             <el-input v-model="job.cronExpression"></el-input>
           </el-form-item>
         </template>
         <!--本地文件系统监听-->
-        <template v-if="job.jobType === 'FileSystemJob'">
+        <template v-if="job.programType === 'FileSystemListenJob'">
           <el-form-item label="文件监听路径">
             <el-input v-model="job.filePath"></el-input>
           </el-form-item>
         </template>
         <!--HTTP请求-->
-        <template v-if="job.jobType === 'HttpJob'">
+        <template v-if="job.programType === 'HttpJob'">
           <el-form-item label="请求方式">
             <el-select v-model="job.httpMethod" placeholder="请选择" style="width: 100%">
               <el-option label="GET" value="GET"></el-option>
@@ -74,13 +78,13 @@
           </el-form-item>
         </template>
         <!--WebSocket侦听-->
-        <template v-if="job.jobType === 'WebSocketJob'">
+        <template v-if="job.programType === 'WebSocketJob'">
           <el-form-item label="WebSocket端口">
             <el-input v-model="job.wsEndpoint"></el-input>
           </el-form-item>
         </template>
         <!--MQ消息队列-->
-        <template v-if="job.jobType === 'MQJob'">
+        <template v-if="job.programType === 'MQJob'">
           <el-form-item label="MQ类型">
             <el-select v-model="job.mqDriverName" placeholder="请选择" style="width: 100%">
               <el-option label="ibmmq" value="ibmmq"></el-option>
@@ -124,7 +128,7 @@
           </el-form-item>
         </template>
         <!--MQ消息队列-->
-        <template v-if="job.jobType === 'OracleTableListenerJob'">
+        <template v-if="job.programType === 'OracleTableListenerJob'">
           <el-form-item label="数据库类型">
             <el-select v-model="job.dbDriverName" placeholder="请选择" style="width: 100%">
               <el-option label="oracle" value="oracle"></el-option>
@@ -174,51 +178,56 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import {mapGetters} from 'vuex'
 import * as JobApi from "@/api/bluex/JobApi";
 import * as ProgramApi from "@/api/bluex/ProgramApi";
-import {jobTypes} from "@/core/JobTypes";
+import {programTypes} from "@/core/ProgramTypes";
 
 export default {
   name: "JobDetailView",
   computed: {
     ...mapGetters([
       'entityDef',
-    ])
+    ]),
+    filteredOptions() {
+      return this.programOptions.filter(
+          (item) => item.programType === this.job.programType
+      );
+    }
   },
   data() {
     return {
       job: {
-        jobNo: undefined,
-        jobName: undefined,
-        jobDesc: undefined,
-        jobType: undefined,
-        programNo: undefined,
-        cronExpression: undefined,
-        filePath: undefined,
-        httpMethod: undefined,
-        httpUrlMapping: undefined,
-        wsEndpoint: undefined,
+        jobNo: null,
+        jobName: null,
+        jobDesc: null,
+        programType: null,
+        programNo: null,
+        cronExpression: null,
+        filePath: null,
+        httpMethod: null,
+        httpUrlMapping: null,
+        wsEndpoint: null,
         mqDriverName: "ibmmq",
-        mqUri: undefined,
-        mqUsername: undefined,
-        mqPassword: undefined,
-        mqDestinationName: undefined,
-        mqPubSubDomain: undefined,
-        mqQueueManager: undefined,
-        mqChannel: undefined,
-        mqConnectionNameList: undefined,
-        mqCcsId: undefined,
+        mqUri: null,
+        mqUsername: null,
+        mqPassword: null,
+        mqDestinationName: null,
+        mqPubSubDomain: null,
+        mqQueueManager: null,
+        mqChannel: null,
+        mqConnectionNameList: null,
+        mqCcsId: null,
         dbDriverName: "oracle",
-        dbUrl: undefined,
-        dbUsername: undefined,
-        dbPassword: undefined,
-        dbEntity: undefined,
+        dbUrl: null,
+        dbUsername: null,
+        dbPassword: null,
+        dbEntity: null,
         dbListenInsert: "Y",
         dbListenUpdate: "Y",
         dbListenDelete: "Y",
       },
-      jobTypeOptions: jobTypes,
+      programTypes: programTypes,
       programOptions: []
     };
   },
@@ -250,6 +259,9 @@ export default {
     }
   },
   methods: {
+    onProgramTypeChange() {
+      this.job.programNo = null;
+    },
     async submitJob() {
       const loading = this.$loading({
         lock: true,
