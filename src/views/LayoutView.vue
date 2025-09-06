@@ -8,10 +8,10 @@
           <template slot="title"><i class="el-icon-postcard"></i>主页</template>
         </el-menu-item>
         <el-submenu index="/tutorial">
-          <template slot="title"><i class="el-icon-data-board"></i>教程</template>
-          <el-menu-item index="/tutorial/introductionView">简介</el-menu-item>
-          <el-menu-item index="/tutorial/documentView">API文档</el-menu-item>
-          <el-menu-item index="/tutorial/playGroundView">在线调试工具</el-menu-item>
+          <template slot="title"><i class="el-icon-data-board"></i>文档</template>
+          <el-menu-item index="/tutorial/introductionView">项目简介</el-menu-item>
+          <el-menu-item index="/tutorial/documentView">快速上手</el-menu-item>
+          <el-menu-item index="/tutorial/playGroundView">在线调试</el-menu-item>
 <!--          <el-menu-item index="/tutorial/aboutView">关于</el-menu-item>-->
         </el-submenu>
         <el-submenu index="/management">
