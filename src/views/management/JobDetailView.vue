@@ -5,7 +5,7 @@
         :model="job"
         label-width="120px"
         size="small"
-        style="width: 40%;">
+        style="width: 40%; padding-top: 20px;">
       <el-form-item>
         <el-button
             type="success"

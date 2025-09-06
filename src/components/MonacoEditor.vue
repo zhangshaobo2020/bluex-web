@@ -16,6 +16,16 @@ export default {
   data() {
     return {
       editor: null,
+      initCode:
+`package com.zsb.bluex.groovy.libs;
+
+import com.zsb.bluex.core.anno.BluexFunction;
+import com.zsb.bluex.core.anno.BluexFunctionLib;
+import com.zsb.bluex.core.param.INPUT;
+import com.zsb.bluex.core.param.OUTPUT;
+import groovy.util.logging.Slf4j;
+
+`
     }
   },
   computed: {
@@ -48,7 +58,7 @@ export default {
   methods: {
     init() {
       this.editor = monaco.editor.create(this.$refs.editorContainer, {
-        value: this.code,
+        value: this.code || this.initCode,
         language: 'java',
         tabSize: 2,
         scrollBeyondLastLine: false,

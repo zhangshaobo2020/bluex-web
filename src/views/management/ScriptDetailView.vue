@@ -5,7 +5,7 @@
         :model="script"
         label-width="120px"
         size="small"
-        style="width: 80%;">
+        style="width: 80%; padding-top: 20px;">
       <el-form-item>
         <el-button
             type="success"
